@@ -1,26 +1,28 @@
 ﻿using ApiTestingSolution.Authenticators;
 using ApiTestingSolution.Constants;
+using ApiTestingSolution.Logging;
 using RestSharp;
 
 namespace ApiTestingSolution.ClientFactory
 {
     public class ApiReadClient
     {
-        private static RestClient? _writeClient;
+        private static RestClient? _readClient;
 
         public static RestClient GetRestClient()
         {
-            if (_writeClient == null)
+            if (_readClient == null)
             {
                 var options = new RestClientOptions(GlobalConstants.BaseUrl)
                 {
-                    Authenticator = new ReadScopeAuthenticator(GlobalConstants.UserName, 
+                    Authenticator = new ReadScopeAuthenticator(GlobalConstants.UserName,
                     GlobalConstants.Password, GlobalConstants.BaseUrl),
                 };
-                _writeClient = new RestClient(options);
+                _readClient = new RestClient(options);
+                Logger.Info("Read client is created");
             }
 
-            return _writeClient;
+            return _readClient;
         }
     }
 }

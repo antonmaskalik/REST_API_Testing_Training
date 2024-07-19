@@ -1,7 +1,9 @@
 ﻿using ApiTestingSolution.Enums;
+using ApiTestingSolution.Logging;
 using ApiTestingSolution.Models;
 using RestSharp;
 using RestSharp.Authenticators;
+
 namespace ApiTestingSolution.Authenticators
 {
     public abstract class BaseTokenAuthenticator : AuthenticatorBase
@@ -34,6 +36,7 @@ namespace ApiTestingSolution.Authenticators
             request.AddParameter("grant_type", "client_credentials");
             request.AddParameter("scope", Scope);
             var response = await _client!.PostAsync<TokenResponse>(request);
+            Logger.Info("The client's token is recived");
 
             return $"{response!.TokenType} {response!.AccessToken}";
         }
