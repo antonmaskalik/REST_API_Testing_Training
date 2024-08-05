@@ -2,7 +2,7 @@
 
 namespace ApiTestingSolution.Models
 {
-    public class User
+    public class User : ICloneable
     {
         public int Age { get; set; }
         public string Name { get; set; }
@@ -30,6 +30,17 @@ namespace ApiTestingSolution.Models
                 $"Name: '{Name}', " +
                 $"Sex: '{Sex}', " +
                 $"ZipCode: '{ZipCode}'";
+        }
+
+        public object Clone()
+        {
+            return new User
+            {
+                Age = Age,
+                Name = Name,
+                Sex = Sex,
+                ZipCode = ZipCode
+            };
         }
     }
 }
