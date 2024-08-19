@@ -1,4 +1,6 @@
-﻿using ApiTestingSolution.Enums;
+﻿using Allure.NUnit;
+using Allure.NUnit.Attributes;
+using ApiTestingSolution.Enums;
 using ApiTestingSolution.Helpers;
 using ApiTestingSolution.Models;
 using ApiTestingSolution.Services;
@@ -8,9 +10,13 @@ using System.Net;
 
 namespace ApiTestingSolution.Tests
 {
+    [AllureNUnit]
+    [AllureSuite("Tests - User controller")]
     public class UserControllerTests
     {
         [Test]
+        [AllureFeature("AddCorrectUserTest")]
+        [AllureStory("Validate add user with correct data")]
         public void AddCorrectUserTest()
         {
             var user = UserHelpers.GetRandomUsersList().FirstOrDefault();
@@ -29,6 +35,8 @@ namespace ApiTestingSolution.Tests
         }
 
         [Test]
+        [AllureFeature("AddUserWithIncorrectZipCodeTest")]
+        [AllureStory("Validate add user with incorrect zip code")]
         public void AddUserWithIncorrectZipCodeTest()
         {
             var user = UserControllerService.GetAllUsers().Users.FirstOrDefault();
@@ -46,6 +54,8 @@ namespace ApiTestingSolution.Tests
         }
 
         [Test]
+        [AllureFeature("AddUserWithIncorrectNameAndSexTest")]
+        [AllureStory("Validate add user with incorrect Name and Sex")]
         public void AddUserWithIncorrectNameAndSexTest()
         {
             var user = UserControllerService.GetAllUsers().Users.First();
@@ -64,6 +74,8 @@ namespace ApiTestingSolution.Tests
         }
 
         [Test]
+        [AllureFeature("GetAllUsersTest")]
+        [AllureStory("Validate getting all existing users from the app")]
         public void GetAllUsersTest()
         {
             (var users, var statusCode) = UserControllerService.GetAllUsers();
@@ -76,6 +88,8 @@ namespace ApiTestingSolution.Tests
         }
 
         [Test]
+        [AllureFeature("GetAllUsersByOlderThanParameterTest")]
+        [AllureStory("Validate getting users by parameter Older than")]
         public void GetAllUsersByOlderThanParameterTest()
         {
             var olderThanValue = 20;
@@ -90,6 +104,8 @@ namespace ApiTestingSolution.Tests
         }
 
         [Test]
+        [AllureFeature("GetAllUsersByYoungerThanParameterTest")]
+        [AllureStory("Validate getting users by parameter Younger than")]
         public void GetAllUsersByYoungerThanParameterTest()
         {
             var youngerThanValue = 20;
@@ -104,6 +120,8 @@ namespace ApiTestingSolution.Tests
         }
 
         [Test]
+        [AllureFeature("GetAllUsersBySexParameterTest")]
+        [AllureStory("Validate getting users by parameter Sex equal to")]
         public void GetAllUsersBySexParameterTest()
         {
             var sex = Sex.FEMALE;
@@ -120,6 +138,8 @@ namespace ApiTestingSolution.Tests
 
         [TestCase(Method.Put)]
         [TestCase(Method.Patch)]
+        [AllureFeature("UpdateUserTest")]
+        [AllureStory("Validate updating user by correct data")]
         public void UpdateUserTest(Method method)
         {
             var zipCodes = ZipCodeControllerService.GetAvailableZipCodes();
@@ -144,6 +164,8 @@ namespace ApiTestingSolution.Tests
 
         [TestCase(Method.Put)]
         [TestCase(Method.Patch)]
+        [AllureFeature("UpdateUserByIncorrectZipCodeTest")]
+        [AllureStory("Validate updating user by incorrect zip code")]
         public void UpdateUserByIncorrectZipCodeTest(Method method)
         {
             var userToUpdate = UserControllerService.GetAllUsers().Users.FirstOrDefault();
@@ -166,6 +188,8 @@ namespace ApiTestingSolution.Tests
 
         [TestCase(Method.Put)]
         [TestCase(Method.Patch)]
+        [AllureFeature("UpdateUserByIncorrectRequestBodyTest")]
+        [AllureStory("Validate updating user by incorrect body request")]
         public void UpdateUserByIncorrectRequestBodyTest(Method method)
         {
             var userToUpdate = UserControllerService.GetAllUsers().Users.FirstOrDefault();
@@ -180,6 +204,8 @@ namespace ApiTestingSolution.Tests
         }
 
         [Test]
+        [AllureFeature("DeleteUser")]
+        [AllureStory("Validate delete user")]
         public void DeleteUser()
         {
             var userToDelete = UserControllerService.GetAllUsers().Users.FirstOrDefault();
@@ -198,6 +224,8 @@ namespace ApiTestingSolution.Tests
         }
 
         [Test]
+        [AllureFeature("DeleteByRequiredFieldsOnlyTest")]
+        [AllureStory("Validate delete user using required fields only")]
         public void DeleteByRequiredFieldsOnlyTest()
         {
             var userToDelete = UserControllerService.GetAllUsers().Users.FirstOrDefault();
@@ -217,6 +245,8 @@ namespace ApiTestingSolution.Tests
         }
 
         [Test]
+        [AllureFeature("DeleteByMissedRequiredFieldTest")]
+        [AllureStory("Validate delete user without using required fields")]
         public void DeleteByMissedRequiredFieldTest()
         {
             var userToDelete = UserControllerService.GetAllUsers().Users.FirstOrDefault();
@@ -235,6 +265,8 @@ namespace ApiTestingSolution.Tests
         }
 
         [Test]
+        [AllureFeature("UploadFileWithCorrectUsersDataTest")]
+        [AllureStory("Validate upload file with correct users data")]
         public void UploadFileWithCorrectUsersDataTest()
         {
             var file = UserHelpers.CreateJsonFileWithCorrectUsers();
@@ -256,6 +288,8 @@ namespace ApiTestingSolution.Tests
         }
                 
         [Test]
+        [AllureFeature("UploadFileWithIncorrectZipCodeForUserTest")]
+        [AllureStory("Validate upload file with incorrect zip code for some user")]
         public void UploadFileWithIncorrectZipCodeForUserTest()
         {
             var file = UserHelpers.CreateJsonFileWithIncorrectZipCodeForUser();
@@ -276,6 +310,8 @@ namespace ApiTestingSolution.Tests
         }
 
         [Test]
+        [AllureFeature("UploadFileWithMissedRequiredFieldTest")]
+        [AllureStory("Validate upload file with missed required fields for some user")]
         public void UploadFileWithMissedRequiredFieldTest()
         {
             var file = UserHelpers.CreateJsonFileWithMissedRequiredField();
