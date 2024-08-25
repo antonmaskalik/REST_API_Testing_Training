@@ -272,9 +272,8 @@ namespace ApiTestingSolution.Tests
             var file = UserHelpers.CreateJsonFileWithCorrectUsers();
             var usersFromFile = file.Users;
             var usedCodes = usersFromFile.Select(user => user.ZipCode).ToList();
-            var filePath = file.FilePath;
 
-            var response = UserControllerService.UploadFileWithUsers(filePath);
+            var response = UserControllerService.UploadFileWithUsers(file.FilePath);
             var users = UserControllerService.GetAllUsers().Users;
             var zipCodes = ZipCodeControllerService.GetAvailableZipCodes();
             var codes = JsonHelper.DeserializeJsonContent<List<string>>(zipCodes);
