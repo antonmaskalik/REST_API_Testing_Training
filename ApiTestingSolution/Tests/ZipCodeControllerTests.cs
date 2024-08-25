@@ -2,12 +2,19 @@ using ApiTestingSolution.Services;
 using System.Net;
 using ApiTestingSolution.Helpers;
 using NUnit.Framework.Legacy;
+using Allure.NUnit.Attributes;
+using Allure.NUnit;
 
 namespace ApiTestingSolution.Tests
 {
+    [AllureNUnit]
+    [AllureSuite("Tests - ZipCode controller")]
     public class ZipCodeControllerTests
     {
         [Test]
+        [AllureFeature("GetAvailibleZipCodesTest")]
+        [AllureStory("Validate get all availible zip codes from the app")]
+
         public void GetAvailibleZipCodesTest()
         {
             var response = ZipCodeControllerService.GetAvailableZipCodes();
@@ -21,6 +28,8 @@ namespace ApiTestingSolution.Tests
         }
 
         [Test]
+        [AllureFeature("ExpandAvailibleZipCodesTest")]
+        [AllureStory("Validate adding correct zip code to the app")]
         public void ExpandAvailibleZipCodesTest()
         {
             var zipCodes = new List<string>()
@@ -40,6 +49,8 @@ namespace ApiTestingSolution.Tests
         }
 
         [Test]
+        [AllureFeature("ExpandAvailibleZipCodesTest")]
+        [AllureStory("Validate adding incorrect zip code to the app")]
         public void ExpandAvailibleZipCodesByDuplicationsTest()
         {
             var response = ZipCodeControllerService.GetAvailableZipCodes();

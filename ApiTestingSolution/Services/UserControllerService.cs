@@ -35,7 +35,7 @@ namespace ApiTestingSolution.Services
             return (users, response.StatusCode);
         }
 
-        public static RestResponse CreateUser(User user) => CreateUpdateUser(Method.Post, user);
+        public static RestResponse CreateUser(User user) => RequestUserUpdate(Method.Post, user);
 
         public static RestResponse UpdateUser(User userToUpdate, User userNewValues, Method method)
         {
@@ -46,10 +46,23 @@ namespace ApiTestingSolution.Services
             };
             Logger.Info($"Trying to update user: {userToUpdate} to {userNewValues}");
 
-            return CreateUpdateUser(method, body);
+            return RequestUserUpdate(method, body);
         }
 
-        private static RestResponse CreateUpdateUser(Method method, object body)
+        public static RestResponse DeleteUser(User userToDelete) => RequestUserUpdate(Method.Delete, userToDelete);
+
+        public static RestResponse DeleteUser(string userToDelete) => RequestUserUpdate(Method.Delete, userToDelete);
+
+        public static RestResponse UploadFileWithUsers(string filePath)
+        {
+            var request = CreateRequest("users/upload", Method.Post);            
+            request.AddFile("file", filePath, "application/json");
+            Logger.Info($"Upload file: {filePath}");
+
+            return ExecuteRequest(request, Scope.Write);
+        }
+
+        private static RestResponse RequestUserUpdate(Method method, object body)
         {
             var request = CreateRequest("users", method, body);
             return ExecuteRequest(request, Scope.Write);
