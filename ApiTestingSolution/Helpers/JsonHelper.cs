@@ -1,17 +1,18 @@
 ﻿using Newtonsoft.Json;
-using RestSharp;
 
 namespace ApiTestingSolution.Helpers
 {
     public static class JsonHelper
     {
-        public static T DeserializeJsonContent<T>(RestResponse response)
+        public static async Task<T> DeserializeJsonContentAsync<T>(HttpResponseMessage response)
         {
-            if (!string.IsNullOrEmpty(response.Content))
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (!string.IsNullOrEmpty(content))
             {
                 try
                 {
-                    return JsonConvert.DeserializeObject<T>(response.Content);
+                    return JsonConvert.DeserializeObject<T>(content);
                 }
                 catch (JsonException ex)
                 {

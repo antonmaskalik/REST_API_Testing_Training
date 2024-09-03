@@ -1,28 +1,23 @@
-﻿using ApiTestingSolution.Authenticators;
-using ApiTestingSolution.Constants;
-using ApiTestingSolution.Logging;
-using RestSharp;
+﻿using ApiTestingSolution.Logging;
 
 namespace ApiTestingSolution.ClientFactory
 {
-    public class ApiWriteClient 
+    public class ApiWriteClient : IWriteApiClient
     {
-        private static RestClient? _writeClient;
+        private readonly HttpClient _httpClient;
 
-        public static RestClient GetRestClient()
+        public ApiWriteClient(HttpClient httpClient)
         {
-            if (_writeClient == null)
-            {
-                var options = new RestClientOptions(GlobalConstants.BaseUrl)
-                {
-                    Authenticator = new WriteScopeAuthenticator(GlobalConstants.UserName, 
-                    GlobalConstants.Password, GlobalConstants.BaseUrl),
-                };
-                _writeClient = new RestClient(options);
-                Logger.Info("The write client is created");
-            }
+            _httpClient = httpClient;
+        }
 
-            return _writeClient;
+        public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
+        {
+            Logger.Info($"Sending write request to {request.RequestUri}");
+            var response = await _httpClient.SendAsync(request);
+            Logger.Info($"Received write response with status code {response.StatusCode}");
+
+            return response;
         }
     }
 }

@@ -4,6 +4,7 @@ using ApiTestingSolution.Helpers;
 using NUnit.Framework.Legacy;
 using Allure.NUnit.Attributes;
 using Allure.NUnit;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ApiTestingSolution.Tests
 {
@@ -11,35 +12,42 @@ namespace ApiTestingSolution.Tests
     [AllureSuite("Tests - ZipCode controller")]
     public class ZipCodeControllerTests
     {
-        [Test]
-        [AllureFeature("GetAvailibleZipCodesTest")]
-        [AllureStory("Validate get all availible zip codes from the app")]
+        private ZipCodeControllerService _zipCodeService;
 
-        public void GetAvailibleZipCodesTest()
+        [OneTimeSetUp]
+        public void Setup()
         {
-            var response = ZipCodeControllerService.GetAvailableZipCodes();
-            var codes = JsonHelper.DeserializeJsonContent<List<string>>(response);
+            _zipCodeService = TestSetup.ServiceProvider.GetRequiredService<ZipCodeControllerService>();
+        }
+
+        [Test]
+        [AllureFeature("GetAvailableZipCodesTest")]
+        [AllureStory("Validate get all available zip codes from the app")]
+        public async Task GetAvailableZipCodesTest()
+        {
+            var response = await _zipCodeService.GetAvailableZipCodesAsync();
+            var codes = await JsonHelper.DeserializeJsonContentAsync<List<string>>(response);
 
             Assert.Multiple(() =>
             {
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK), "Status code should be 200 OK");
-                CollectionAssert.IsNotEmpty(codes, "Contant should contain some ZIP codes");
+                CollectionAssert.IsNotEmpty(codes, "Content should contain some ZIP codes");
             });
         }
 
         [Test]
-        [AllureFeature("ExpandAvailibleZipCodesTest")]
+        [AllureFeature("ExpandAvailableZipCodesTest")]
         [AllureStory("Validate adding correct zip code to the app")]
-        public void ExpandAvailibleZipCodesTest()
+        public async Task ExpandAvailableZipCodesTest()
         {
-            var zipCodes = new List<string>()
+            var zipCodes = new List<string>
             {
                 RandomHelper.GetRandomString(5),
                 RandomHelper.GetRandomString(8)
             };
 
-            var response = ZipCodeControllerService.ExpendAvailableZipCodes(zipCodes);
-            var actualCodes = JsonHelper.DeserializeJsonContent<List<string>>(response);
+            var response = await _zipCodeService.ExpendAvailableZipCodesAsync(zipCodes);
+            var actualCodes = await JsonHelper.DeserializeJsonContentAsync<List<string>>(response);
 
             Assert.Multiple(() =>
             {
@@ -49,22 +57,24 @@ namespace ApiTestingSolution.Tests
         }
 
         [Test]
-        [AllureFeature("ExpandAvailibleZipCodesTest")]
+        [AllureFeature("ExpandAvailableZipCodesTest")]
         [AllureStory("Validate adding incorrect zip code to the app")]
-        public void ExpandAvailibleZipCodesByDuplicationsTest()
+        public async Task ExpandAvailableZipCodesByDuplicationsTest()
         {
-            var response = ZipCodeControllerService.GetAvailableZipCodes();
-            var actualCodes = JsonHelper.DeserializeJsonContent<List<string>>(response);
-            var zipCodes = actualCodes;
-            zipCodes.Add(actualCodes.First());
+            var response = await _zipCodeService.GetAvailableZipCodesAsync();
+            var actualCodes = await JsonHelper.DeserializeJsonContentAsync<List<string>>(response);
+            var zipCodes = new List<string>(actualCodes)
+        {
+            actualCodes.First()
+        };
 
-            response = ZipCodeControllerService.ExpendAvailableZipCodes(zipCodes);
-            actualCodes = JsonHelper.DeserializeJsonContent<List<string>>(response);
+            response = await _zipCodeService.ExpendAvailableZipCodesAsync(zipCodes);
+            actualCodes = await JsonHelper.DeserializeJsonContentAsync<List<string>>(response);
 
             Assert.Multiple(() =>
             {
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created), "Status code should be 201 Created");
-                Assert.That(actualCodes, Is.Unique, "The list of the app ZIP codes contains dublications");
+                Assert.That(actualCodes, Is.Unique, "The list of the app ZIP codes contains duplications");
             });
         }
 

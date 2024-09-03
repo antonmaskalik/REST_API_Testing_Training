@@ -1,28 +1,23 @@
-﻿using ApiTestingSolution.Authenticators;
-using ApiTestingSolution.Constants;
-using ApiTestingSolution.Logging;
-using RestSharp;
+﻿using ApiTestingSolution.Logging;
 
 namespace ApiTestingSolution.ClientFactory
 {
-    public class ApiReadClient
+    public class ApiReadClient : IReadApiClient
     {
-        private static RestClient? _readClient;
+        private readonly HttpClient _httpClient;
 
-        public static RestClient GetRestClient()
+        public ApiReadClient(HttpClient httpClient)
         {
-            if (_readClient == null)
-            {
-                var options = new RestClientOptions(GlobalConstants.BaseUrl)
-                {
-                    Authenticator = new ReadScopeAuthenticator(GlobalConstants.UserName,
-                    GlobalConstants.Password, GlobalConstants.BaseUrl),
-                };
-                _readClient = new RestClient(options);
-                Logger.Info("Read client is created");
-            }
+            _httpClient = httpClient;
+        }
 
-            return _readClient;
+        public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
+        {
+            Logger.Info($"Sending read request to {request.RequestUri}");
+            var response = await _httpClient.SendAsync(request);
+            Logger.Info($"Received read response with status code {response.StatusCode}");
+
+            return response;
         }
     }
 }
