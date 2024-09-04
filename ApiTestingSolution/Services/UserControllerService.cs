@@ -1,71 +1,95 @@
-﻿using RestSharp;
-using ApiTestingSolution.Enums;
+﻿using ApiTestingSolution.Enums;
 using ApiTestingSolution.Models;
-using ApiTestingSolution.Helpers;
 using ApiTestingSolution.Logging;
 using System.Net;
+using ApiTestingSolution.ClientFactory;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace ApiTestingSolution.Services
 {
     public class UserControllerService : BaseService
     {
-        public static (List<User> Users, HttpStatusCode StatusCode) GetAllUsers(int? olderThan = null, int? youngerThan = null, Sex? sex = null)
+        public UserControllerService(IReadApiClient readClient, IWriteApiClient writeClient)
+            : base(readClient, writeClient) { }
+
+        public async Task<(List<User> Users, HttpStatusCode StatusCode)> GetAllUsersAsync(int? olderThan = null, int? youngerThan = null, Sex? sex = null)
         {
-            var request = CreateRequest("users", Method.Get);
+            var endpoint = "users";
+            var queryParams = new List<string>();
 
             if (olderThan != null)
             {
-                request.AddQueryParameter("olderThan", olderThan.ToString());
+                queryParams.Add($"olderThan={olderThan}");
                 Logger.Info($"Parameter olderThan={olderThan} is added to the GET request");
             }
             if (youngerThan != null)
             {
-                request.AddQueryParameter("youngerThan", youngerThan.ToString());
+                queryParams.Add($"youngerThan={youngerThan}");
                 Logger.Info($"Parameter youngerThan={youngerThan} is added to the GET request");
             }
             if (sex != null)
             {
-                request.AddQueryParameter("sex", sex.ToString().ToUpper());
-                Logger.Info($"Parameter sex={sex.ToString()} is added to the GET request");
+                queryParams.Add($"sex={sex.ToString().ToUpper()}");
+                Logger.Info($"Parameter sex={sex} is added to the GET request");
             }
 
-            var response = ExecuteRequest(request, Scope.Read);
-            var users = JsonHelper.DeserializeJsonContent<List<User>>(response);
+            if (queryParams.Any())
+            {
+                endpoint += "?" + string.Join("&", queryParams);
+            }
 
+            var request = CreateRequest(endpoint, HttpMethod.Get);
+            var response = await ExecuteRequestAsync(request,Scope.Read);
+
+            var users = JsonConvert.DeserializeObject<List<User>>(await response.Content.ReadAsStringAsync());
             return (users, response.StatusCode);
         }
 
-        public static RestResponse CreateUser(User user) => RequestUserUpdate(Method.Post, user);
+        public async Task<HttpResponseMessage> CreateUserAsync(User user) 
+            => await RequestUserUpdateAsync(HttpMethod.Post, user);
 
-        public static RestResponse UpdateUser(User userToUpdate, User userNewValues, Method method)
+        public async Task<HttpResponseMessage> UpdateUserAsync(User userToUpdate, User userNewValues, HttpMethod method)
         {
             var body = new Dictionary<string, User>
             {
-                { "userNewValues", userNewValues},
-                { "userToChange", userToUpdate}
+                { "userNewValues", userNewValues },
+                { "userToChange", userToUpdate }
             };
             Logger.Info($"Trying to update user: {userToUpdate} to {userNewValues}");
 
-            return RequestUserUpdate(method, body);
+            return await RequestUserUpdateAsync(method, body);
         }
 
-        public static RestResponse DeleteUser(User userToDelete) => RequestUserUpdate(Method.Delete, userToDelete);
+        public async Task<HttpResponseMessage> DeleteUserAsync(User userToDelete) 
+            => await RequestUserUpdateAsync(HttpMethod.Delete, userToDelete);
+       
+        public async Task<HttpResponseMessage> DeleteUserAsync(string userToDelete) =>
+            await RequestUserUpdateAsync(HttpMethod.Delete, userToDelete);
 
-        public static RestResponse DeleteUser(string userToDelete) => RequestUserUpdate(Method.Delete, userToDelete);
-
-        public static RestResponse UploadFileWithUsers(string filePath)
+        public async Task<HttpResponseMessage> UploadFileWithUsersAsync(string filePath)
         {
-            var request = CreateRequest("users/upload", Method.Post);            
-            request.AddFile("file", filePath, "application/json");
-            Logger.Info($"Upload file: {filePath}");
+            var request = CreateRequest("users/upload", HttpMethod.Post);
 
-            return ExecuteRequest(request, Scope.Write);
+            using (var memoryStream = new MemoryStream(File.ReadAllBytes(filePath)))
+            {
+                var content = new StreamContent(memoryStream);
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                var formData = new MultipartFormDataContent
+                {
+                    { content, "file", Path.GetFileName(filePath) }
+                };
+
+                request.Content = formData;
+                Logger.Info($"Uploading file: {filePath}");
+                return await ExecuteRequestAsync(request, Scope.Write);
+            }
         }
 
-        private static RestResponse RequestUserUpdate(Method method, object body)
+        private async Task<HttpResponseMessage> RequestUserUpdateAsync(HttpMethod method, object body)
         {
             var request = CreateRequest("users", method, body);
-            return ExecuteRequest(request, Scope.Write);
+            return await ExecuteRequestAsync(request,Scope.Write);
         }
     }
 }

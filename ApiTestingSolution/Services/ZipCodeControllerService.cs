@@ -1,22 +1,23 @@
-﻿using ApiTestingSolution.Enums;
-using RestSharp;
+﻿using ApiTestingSolution.ClientFactory;
+using ApiTestingSolution.Enums;
 
 namespace ApiTestingSolution.Services
 {
     public class ZipCodeControllerService : BaseService
     {
-        public static RestResponse GetAvailableZipCodes()
-        {
-            var request = CreateRequest("zip-codes", Method.Get);
+        public ZipCodeControllerService(IReadApiClient readClient, IWriteApiClient writeClient)
+            : base(readClient, writeClient) { }
 
-            return ExecuteRequest(request, Scope.Read);
+        public async Task<HttpResponseMessage> GetAvailableZipCodesAsync()
+        {
+            var request = CreateRequest("zip-codes", HttpMethod.Get);
+            return await ExecuteRequestAsync(request, Scope.Read);
         }
 
-        public static RestResponse ExpendAvailableZipCodes(List<string> zipCodes)
+        public async Task<HttpResponseMessage> ExpendAvailableZipCodesAsync(List<string> zipCodes)
         {
-            var request = CreateRequest("zip-codes/expand", Method.Post, zipCodes);
-
-            return ExecuteRequest(request, Scope.Write);
+            var request = CreateRequest("zip-codes/expand", HttpMethod.Post, zipCodes);
+            return await ExecuteRequestAsync(request, Scope.Write);
         }
     }
 }

@@ -9,46 +9,62 @@ namespace ApiTestingSolution.Helpers
 {
     public static class UserHelpers
     {
-        private readonly static string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "users.json");
+        private static readonly string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "users.json");
+        private static ZipCodeControllerService _zipCodeService;
 
-        public static (List<User> Users, string FilePath) CreateJsonFileWithCorrectUsers()
+        public static void Initialize(ZipCodeControllerService zipCodeService)
         {
-            var users = GetRandomUsersList();
+            _zipCodeService = zipCodeService;
+        }
+
+        public static async Task<(List<User> Users, string FilePath)> CreateJsonFileWithCorrectUsersAsync()
+        {
+            var users = await GetRandomUsersListAsync();
             var jsonContent = JsonConvert.SerializeObject(users);
 
             return (users, CreateJsonFile(jsonContent));
         }
 
-        public static (List<User> Users, string FilePath) CreateJsonFileWithIncorrectZipCodeForUser()
+        public static async Task<(List<User> Users, string FilePath)> CreateJsonFileWithIncorrectZipCodeForUserAsync()
         {
-            var users = GetRandomUsersList();
-            users.FirstOrDefault().ZipCode = RandomHelper.GetRandomString();
+            var users = await GetRandomUsersListAsync();
+            var user = users.FirstOrDefault();
+            if (user != null)
+            {
+                user.ZipCode = RandomHelper.GetRandomString();
+            }
             var jsonContent = JsonConvert.SerializeObject(users);
 
             return (users, CreateJsonFile(jsonContent));
         }
 
-        public static (List<User> Users, string FilePath) CreateJsonFileWithMissedRequiredField()
+        public static async Task<(List<User> Users, string FilePath)> CreateJsonFileWithMissedRequiredFieldAsync()
         {
-            var users = GetRandomUsersList();
+            var users = await GetRandomUsersListAsync();
             var jsonContent = JsonConvert.SerializeObject(users);
             var jsonArray = JArray.Parse(jsonContent);
             var firstElement = (JObject)jsonArray.FirstOrDefault();
-            firstElement.Remove("Name");
+            if (firstElement != null)
+            {
+                firstElement.Remove("Name");
+            }
             var modifiedJsonContent = jsonArray.ToString();
 
             return (users, CreateJsonFile(modifiedJsonContent));
         }
 
-        public static List<User> GetRandomUsersList()
+        public static async Task<List<User>> GetRandomUsersListAsync()
         {
+            if (_zipCodeService == null)
+                throw new InvalidOperationException("UserHelpers is not initialized with ZipCodeControllerService instance");
+
+            var response = await _zipCodeService.GetAvailableZipCodesAsync();
+            var codes = await JsonHelper.DeserializeJsonContentAsync<List<string>>(response);
             var users = new List<User>();
-            var zipCodes = ZipCodeControllerService.GetAvailableZipCodes();
-            var codes = JsonHelper.DeserializeJsonContent<List<string>>(zipCodes);
 
             foreach (var code in codes)
             {
-                var user = new User()
+                var user = new User
                 {
                     Age = RandomHelper.GetRandomInt(1, 60),
                     Name = RandomHelper.GetRandomString(),
@@ -64,7 +80,7 @@ namespace ApiTestingSolution.Helpers
         private static string CreateJsonFile(string jsonContent)
         {
             try
-            {                
+            {
                 File.WriteAllText(filePath, jsonContent);
                 Logger.Info("The JSON file was successfully created along the path: " + filePath);
 
