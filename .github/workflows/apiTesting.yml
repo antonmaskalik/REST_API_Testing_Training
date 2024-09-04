@@ -1,0 +1,18 @@
+name: API testing
+on: workflow_dispatch
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull docker container (coherentsolutions/rest-training:2.0)
+        run: docker pull coherentsolutions/rest-training:2.0
+      - name: Run docker container (coherentsolutions/rest-training:2.0) on port 8082:8082
+        run: docker run -d -p 8082:8082 coherentsolutions/rest-training:2.0      
+      - name: Setup .Net SDK
+        uses: actions/setup-dotnet@v4
+      - name: Get repository code
+        uses: actions/checkout@v4
+      - name: Restore NuGet packages
+        run: dotnet restore --locked-mode
+      - name: Build ApiTestingSolution
+        run: dotnet build ApiTestingSolution.sln
