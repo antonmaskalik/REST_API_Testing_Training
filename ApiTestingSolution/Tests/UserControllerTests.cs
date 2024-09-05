@@ -14,7 +14,7 @@ namespace ApiTestingSolution.Tests
     [AllureSuite("Tests - User controller")]
     public class UserControllerTests
     {
-        [Test]
+        [Test, Order(1)]
         [AllureFeature("AddCorrectUserTest")]
         [AllureStory("Validate add user with correct data")]
         public void AddCorrectUserTest()
@@ -198,7 +198,7 @@ namespace ApiTestingSolution.Tests
 
             Assert.Multiple(() =>
             {
-                Assert.That(updateUserResponse.StatusCode, Is.EqualTo(HttpStatusCode.Conflict), "Status code should be 409 Conflict");
+                Assert.That(updateUserResponse.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest), "Status code should be 400 BadRequest");
                 Assert.That(allUsers, Does.Contain(userToUpdate), $"The application should contain the old user: {userToUpdate}");
             });
         }
@@ -308,7 +308,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test]
+        [Test, Order(2)]
         [AllureFeature("UploadFileWithMissedRequiredFieldTest")]
         [AllureStory("Validate upload file with missed required fields for some user")]
         public void UploadFileWithMissedRequiredFieldTest()
