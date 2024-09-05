@@ -13,15 +13,8 @@ jobs:
       - name: Get repository code
         uses: actions/checkout@v4
       - name: Restore NuGet packages
-        run: dotnet restore --locked-mode
+        run: dotnet restore
       - name: Build ApiTestingSolution
         run: dotnet build ApiTestingSolution.sln --configuration Release
-      - name: Publish test results (optional)
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-results
-          path: TestResults
-      - name: Publish Allure report (optional)
-        uses: allure-report/upload@v1
-        with:
-          results: ./TestResults
+      - name: Run tests
+        run: dotnet test ApiTestingSolution.sln --logger:"trx;LogFileName=test-results.trx"
