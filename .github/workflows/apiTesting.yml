@@ -13,7 +13,7 @@ jobs:
       - name: Get repository code
         uses: actions/checkout@v4
       - name: Restore NuGet packages
-        run: dotnet restore ApiTestingSolution.sln
+        run: dotnet restore ApiTestingSolution/ApiTestingSolution.sln
       - name: Build ApiTestingSolution
         run: dotnet build ApiTestingSolution.sln --configuration Release
       - name: Run tests
