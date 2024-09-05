@@ -18,12 +18,12 @@ jobs:
         run: dotnet build ApiTestingSolution/ApiTestingSolution.sln --configuration Release
       - name: Run tests
         run: dotnet test ApiTestingSolution/ApiTestingSolution.sln --logger:"trx;LogFileName=test-results.trx"
-      - name: Publish test results (optional)
+      - name: Install Allure
+        run: npm install -g allure-commandline --save-dev
+      - name: Generate Allure report
+        run: allure generate ./TestResults --clean
+      - name: Upload Allure report
         uses: actions/upload-artifact@v3
         with:
-          name: test-results
-          path: TestResults
-      - name: Publish Allure report
-        uses: allure-report/upload@v1
-        with:
-          results: ./TestResults
+          name: allure-report
+          path: allure-report
