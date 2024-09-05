@@ -6,30 +6,54 @@ jobs:
     steps:
       - name: Pull docker container (coherentsolutions/rest-training:2.0)
         run: docker pull coherentsolutions/rest-training:2.0
+      
       - name: Run docker container (coherentsolutions/rest-training:2.0) on port 8082:8082
         run: docker run -d -p 8082:8082 coherentsolutions/rest-training:2.0      
+      
       - name: Setup .Net SDK
         uses: actions/setup-dotnet@v4
+      
       - name: Get repository code
         uses: actions/checkout@v4
+      
       - name: Restore NuGet packages
         run: dotnet restore ApiTestingSolution/ApiTestingSolution.sln
+      
       - name: Build ApiTestingSolution
         run: dotnet build ApiTestingSolution/ApiTestingSolution.sln --configuration Release
+      
       - name: Run tests
         run: dotnet test ApiTestingSolution/ApiTestingSolution.sln --logger:"trx;LogFileName=test-results.trx"
         continue-on-error: true
-      - name: Set test result output
-        run: if [ $? -ne 0 ]; then echo "tests_failed=true" >> $GITHUB_ENV; else echo "tests_failed=false" >> $GITHUB_ENV; fi
+      
       - name: Install Allure
+        if: always()
         run: npm install -g allure-commandline --save-dev
+      
       - name: Generate Allure report
+        if: always()
         run: allure generate ./TestResults --clean
-      - name: Deploy Allure report to GitHub Pages
+     
+      - name: Load test report history
+        uses: actions/checkout@v3
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Build test report
+        uses: simple-elf/allure-report-action@v1.7
+        if: always()
+        with:
+          gh_pages: gh-pages
+          allure_history: allure-history
+          allure_results: build/allure-results
+
+      - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3
+        if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./allure-report
-      - name: Fail the workflow if tests failed
-        if: env.tests_failed == 'true'
-        run: exit 1
+          publish_branch: gh-pages
+          publish_dir: allure-history
