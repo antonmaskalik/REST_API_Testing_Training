@@ -15,4 +15,13 @@ jobs:
       - name: Restore NuGet packages
         run: dotnet restore --locked-mode
       - name: Build ApiTestingSolution
-        run: dotnet build ApiTestingSolution.sln
+        run: dotnet build ApiTestingSolution.sln --configuration Release
+      - name: Publish test results (optional)
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: TestResults
+      - name: Publish Allure report (optional)
+        uses: allure-report/upload@v1
+        with:
+          results: ./TestResults
