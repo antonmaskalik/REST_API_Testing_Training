@@ -15,6 +15,6 @@ jobs:
       - name: Restore NuGet packages
         run: dotnet restore ApiTestingSolution/ApiTestingSolution.sln
       - name: Build ApiTestingSolution
-        run: dotnet build ApiTestingSolution.sln --configuration Release
+        run: dotnet build ApiTestingSolution/ApiTestingSolution.sln --configuration Release
       - name: Run tests
-        run: dotnet test ApiTestingSolution.sln --logger:"trx;LogFileName=test-results.trx"
+        run: dotnet test ApiTestingSolution/ApiTestingSolution.sln --logger:"trx;LogFileName=test-results.trx"
