@@ -1,5 +1,6 @@
 name: API testing
 on: workflow_dispatch
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -56,3 +57,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
+
+      - name: Create Allure Report URL
+        run: echo "Allure Report URL - https://antonmaskalik.github.io/REST_API_Testing_Training/"
