@@ -59,4 +59,5 @@ jobs:
           publish_dir: allure-history
 
       - name: Create Allure Report URL
+        if: always()
         run: echo "Allure Report URL - https://antonmaskalik.github.io/REST_API_Testing_Training/"
