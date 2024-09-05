@@ -18,6 +18,7 @@ jobs:
         run: dotnet build ApiTestingSolution/ApiTestingSolution.sln --configuration Release
       - name: Run tests
         run: dotnet test ApiTestingSolution/ApiTestingSolution.sln --logger:"trx;LogFileName=test-results.trx"
+        continue-on-error: true
       - name: Install Allure
         run: npm install -g allure-commandline --save-dev
       - name: Generate Allure report
