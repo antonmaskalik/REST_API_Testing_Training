@@ -7,6 +7,7 @@ using ApiTestingSolution.Models;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework.Legacy;
 using System.Net;
+using Newtonsoft.Json.Linq;
 
 namespace ApiTestingSolution.Tests
 {
@@ -34,7 +35,7 @@ namespace ApiTestingSolution.Tests
             UserHelpers.Initialize(_zipCodeService);
         }
 
-        [Test]
+        [Test, Order(1)]
         [AllureFeature("AddCorrectUserTest")]
         [AllureStory("Validate add user with correct data")]
         public void AddCorrectUserTest()
@@ -54,7 +55,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test]
+        [Test, Order(2)]
         [AllureFeature("AddUserWithIncorrectZipCodeTest")]
         [AllureStory("Validate add user with incorrect zip code")]
         public void AddUserWithIncorrectZipCodeTest()
@@ -73,7 +74,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test]
+        [Test, Order(3)]
         [AllureFeature("AddUserWithIncorrectNameAndSexTest")]
         [AllureStory("Validate add user with incorrect Name and Sex")]
         public void AddUserWithIncorrectNameAndSexTest()
@@ -93,7 +94,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test]
+        [Test, Order(4)]
         [AllureFeature("GetAllUsersTest")]
         [AllureStory("Validate getting all existing users from the app")]
         public void GetAllUsersTest()
@@ -107,7 +108,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test]
+        [Test, Order(4)]
         [AllureFeature("GetAllUsersByOlderThanParameterTest")]
         [AllureStory("Validate getting users by parameter Older than")]
         public void GetAllUsersByOlderThanParameterTest()
@@ -123,7 +124,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test]
+        [Test, Order(4)]
         [AllureFeature("GetAllUsersByYoungerThanParameterTest")]
         [AllureStory("Validate getting users by parameter Younger than")]
         public void GetAllUsersByYoungerThanParameterTest()
@@ -139,7 +140,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test]
+        [Test, Order(4)]
         [AllureFeature("GetAllUsersBySexParameterTest")]
         [AllureStory("Validate getting users by parameter Sex equal to")]
         public void GetAllUsersBySexParameterTest()
@@ -156,7 +157,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [TestCaseSource(nameof(HttpMethods))]
+        [TestCaseSource(nameof(HttpMethods)), Order(5)]
         [AllureFeature("UpdateUserTest")]
         [AllureStory("Validate updating user by correct data")]
         public void UpdateUserTest(HttpMethod method)
@@ -181,7 +182,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [TestCaseSource(nameof(HttpMethods))]
+        [TestCaseSource(nameof(HttpMethods)), Order(5)]
         [AllureFeature("UpdateUserByIncorrectZipCodeTest")]
         [AllureStory("Validate updating user by incorrect zip code")]
         public void UpdateUserByIncorrectZipCodeTest(HttpMethod method)
@@ -204,7 +205,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [TestCaseSource(nameof(HttpMethods))]
+        [TestCaseSource(nameof(HttpMethods)), Order(5)]
         [AllureFeature("UpdateUserByIncorrectRequestBodyTest")]
         [AllureStory("Validate updating user by incorrect body request")]
         public void UpdateUserByIncorrectRequestBodyTest(HttpMethod method)
@@ -215,7 +216,7 @@ namespace ApiTestingSolution.Tests
 
             Assert.Multiple(() =>
             {
-                Assert.That(updateUserResponse.StatusCode, Is.EqualTo(HttpStatusCode.Conflict), "Status code should be 409 Conflict");
+                Assert.That(updateUserResponse.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest), "Status code should be 400 BadRequest");
                 Assert.That(allUsers, Does.Contain(userToUpdate), $"The application should contain the old user: {userToUpdate}");
             });
         }
@@ -246,7 +247,7 @@ namespace ApiTestingSolution.Tests
         public void DeleteByRequiredFieldsOnlyTest()
         {
             var userToDelete = _userControllerService.GetAllUsersAsync().Result.Users.FirstOrDefault();
-            var jsonBody = $"{{ \"name\": \"{userToDelete.Name}\", \"sex\": \"{userToDelete.Sex}\" }}";
+            var jsonBody = JObject.Parse($"{{ \"name\": \"{userToDelete.Name}\", \"sex\": \"{userToDelete.Sex}\" }}");
 
             var response = _userControllerService.DeleteUserAsync(jsonBody).Result;
             var zipCodes = _zipCodeService.GetAvailableZipCodesAsync().Result;
@@ -267,7 +268,7 @@ namespace ApiTestingSolution.Tests
         public void DeleteByMissedRequiredFieldTest()
         {
             var userToDelete = _userControllerService.GetAllUsersAsync().Result.Users.FirstOrDefault();
-            var jsonBody = $"{{ \"age\": \"{userToDelete.Age}\", \"sex\": \"{userToDelete.Sex}\", \"zipCode\": \"{userToDelete.ZipCode}\" }}";
+            var jsonBody = JObject.Parse($"{{ \"age\": {userToDelete.Age}, \"sex\": \"{userToDelete.Sex}\", \"zipCode\": \"{userToDelete.ZipCode}\" }}");
 
             var response = _userControllerService.DeleteUserAsync(jsonBody).Result;
             var zipCodes = _zipCodeService.GetAvailableZipCodesAsync().Result;
@@ -282,7 +283,7 @@ namespace ApiTestingSolution.Tests
         }
 
         [Test]
-        [AllureFeature("UploadFileWithCorrectUsersDataTest")]
+        [AllureFeature("UploadFileWithCorrectUsersDataTest"), Order(6)]
         [AllureStory("Validate upload file with correct users data")]
         public void UploadFileWithCorrectUsersDataTest()
         {
@@ -304,14 +305,13 @@ namespace ApiTestingSolution.Tests
         }
 
         [Test]
-        [AllureFeature("UploadFileWithIncorrectZipCodeForUserTest")]
+        [AllureFeature("UploadFileWithIncorrectZipCodeForUserTest"), Order(6)]
         [AllureStory("Validate upload file with incorrect zip code for some user")]
         public void UploadFileWithIncorrectZipCodeForUserTest()
         {
-            var file = UserHelpers.CreateJsonFileWithCorrectUsersAsync().Result;
+            var file = UserHelpers.CreateJsonFileWithIncorrectZipCodeForUserAsync().Result;
             var usersFromFile = file.Users;
             var usedCodes = usersFromFile.Select(user => user.ZipCode);
-            var filePath = file.FilePath;
 
             var response = _userControllerService.UploadFileWithUsersAsync(file.FilePath).Result;
             var zipCodes = _zipCodeService.GetAvailableZipCodesAsync().Result;
@@ -325,7 +325,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test]
+        [Test, Order(6)]
         [AllureFeature("UploadFileWithMissedRequiredFieldTest")]
         [AllureStory("Validate upload file with missed required fields for some user")]
         public void UploadFileWithMissedRequiredFieldTest()

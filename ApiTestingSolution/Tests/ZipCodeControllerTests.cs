@@ -20,7 +20,7 @@ namespace ApiTestingSolution.Tests
             _zipCodeService = TestSetup.ServiceProvider.GetRequiredService<ZipCodeControllerService>();
         }
 
-        [Test]
+        [Test, Order(1)]
         [AllureFeature("GetAvailableZipCodesTest")]
         [AllureStory("Validate get all available zip codes from the app")]
         public async Task GetAvailableZipCodesTest()
@@ -35,7 +35,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test]
+        [Test, Order(1)]
         [AllureFeature("ExpandAvailableZipCodesTest")]
         [AllureStory("Validate adding correct zip code to the app")]
         public async Task ExpandAvailableZipCodesTest()

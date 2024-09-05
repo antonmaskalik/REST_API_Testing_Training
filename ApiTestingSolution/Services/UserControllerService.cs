@@ -61,11 +61,8 @@ namespace ApiTestingSolution.Services
             return await RequestUserUpdateAsync(method, body);
         }
 
-        public async Task<HttpResponseMessage> DeleteUserAsync(User userToDelete) 
+        public async Task<HttpResponseMessage> DeleteUserAsync(object userToDelete) 
             => await RequestUserUpdateAsync(HttpMethod.Delete, userToDelete);
-       
-        public async Task<HttpResponseMessage> DeleteUserAsync(string userToDelete) =>
-            await RequestUserUpdateAsync(HttpMethod.Delete, userToDelete);
 
         public async Task<HttpResponseMessage> UploadFileWithUsersAsync(string filePath)
         {

@@ -46,7 +46,7 @@ namespace ApiTestingSolution.Helpers
             var firstElement = (JObject)jsonArray.FirstOrDefault();
             if (firstElement != null)
             {
-                firstElement.Remove("Name");
+                firstElement.Remove("name");
             }
             var modifiedJsonContent = jsonArray.ToString();
 
