@@ -23,8 +23,12 @@ jobs:
         run: npm install -g allure-commandline --save-dev
       - name: Generate Allure report
         run: allure generate ./TestResults --clean
-      - name: Upload Allure report
-        uses: actions/upload-artifact@v3
+      - name: Deploy Allure report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          name: allure-report
-          path: allure-report
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report
+      - name: Fail the workflow if tests failed
+        if: env.tests_failed == 'true'
+        run: exit 1
