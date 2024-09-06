@@ -1,5 +1,10 @@
 name: API testing
-on: workflow_dispatch
+on: workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Specify branch to run the action'
+        required: true
+        default: 'master'
 
 jobs:
   test:
@@ -16,6 +21,8 @@ jobs:
       
       - name: Get repository code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
       
       - name: Restore NuGet packages
         run: dotnet restore ApiTestingSolution/ApiTestingSolution.sln
