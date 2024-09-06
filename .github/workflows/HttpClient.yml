@@ -1,4 +1,4 @@
-name: API testing
+name: HttpCLient
 on: workflow_dispatch
 
 jobs:
