@@ -67,4 +67,4 @@ jobs:
           publish_dir: ./allure-report
 
       - name: Provide link to the Allure report
-        run: echo "## 📊 [Allure report available here](https://${{ github.repository_owner }}.github.io/${{ github.repository }}/)" >> $GITHUB_STEP_SUMMARY
+        run: echo "## 📊 [Allure report available here](https://${{ github.repository_owner }}.github.io/REST_API_Testing_Training/)" >> $GITHUB_STEP_SUMMARY
