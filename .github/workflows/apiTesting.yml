@@ -16,9 +16,7 @@ jobs:
       
       - name: Get repository code
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.inputs.branch }}
-      
+        
       - name: Restore NuGet packages
         run: dotnet restore ApiTestingSolution/ApiTestingSolution.sln
       
