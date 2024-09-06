@@ -1,10 +1,11 @@
 name: API testing
-on: workflow_dispatch:
+on:
+  workflow_dispatch:
     inputs:
       branch:
         description: 'Specify branch to run the action'
         required: true
-        default: 'master'
+        default: 'main'
 
 jobs:
   test:
