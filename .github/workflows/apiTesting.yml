@@ -2,13 +2,13 @@ name: API testing
 on: workflow_dispatch
 
 jobs:
-  test:
+  deploy-and-test-run:
     runs-on: ubuntu-latest
     steps:
-      - name: Pull docker container (coherentsolutions/rest-training:2.0)
+      - name: Pull API Docker image
         run: docker pull coherentsolutions/rest-training:2.0
       
-      - name: Run docker container (coherentsolutions/rest-training:2.0) on port 8082:8082
+      - name: Run API Docker container
         run: docker run -d -p 8082:8082 coherentsolutions/rest-training:2.0      
       
       - name: Setup .Net SDK
@@ -24,40 +24,37 @@ jobs:
         run: dotnet build ApiTestingSolution/ApiTestingSolution.sln --configuration Release
       
       - name: Run tests
-        run: dotnet test ApiTestingSolution/ApiTestingSolution.sln --logger:"trx;LogFileName=test-results.trx"
+        run: dotnet test ApiTestingSolution/ApiTestingSolution.sln --logger "trx"
               
-      - name: Install Allure
+      - name: Publish Allure results
         if: always()
-        run: npm install -g allure-commandline --save-dev
-      
-      - name: Generate Allure report
-        if: always()
-        run: allure generate ./TestResults --clean
-     
-      - name: Load test report history
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: '**/TestResults/*.trx'
+  generate-allure-report:
+    needs: deploy-and-test-run
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Check out code from GitHub repository
         uses: actions/checkout@v3
-        if: always()
-        continue-on-error: true
-        with:
-          ref: gh-pages
-          path: gh-pages
 
-      - name: Build test report
-        uses: simple-elf/allure-report-action@v1.7
-        if: always()
+      - name: Download test results
+        uses: actions/download-artifact@v3
         with:
-          gh_pages: gh-pages
-          allure_history: allure-history
-          allure_results: build/allure-results
+          name: test-results
 
-      - name: Publish test report
+      - name: Install Allure CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y allure
+
+      - name: Generate Allure Report
+        run: allure generate --clean
+
+      - name: Publish Allure report
         uses: peaceiris/actions-gh-pages@v3
-        if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: allure-history
-
-      - name: Create Allure Report URL
-        if: always()
-        run: echo "Allure Report URL - https://antonmaskalik.github.io/REST_API_Testing_Training/"
+          publish_dir: ./allure-report
