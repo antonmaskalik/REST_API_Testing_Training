@@ -65,3 +65,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./allure-report
+
+      - name: Provide link to the Allure report
+        run: echo "## 📊 [Allure report available here](https://${{ github.repository_owner }}.github.io/${{ github.repository }}/)" >> $GITHUB_STEP_SUMMARY
