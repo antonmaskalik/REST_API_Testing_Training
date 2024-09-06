@@ -1,12 +1,19 @@
 ﻿using ApiTestingSolution.Enums;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json;
 
 namespace ApiTestingSolution.Models
 {
     public class User : ICloneable
     {
-        public int Age { get; set; }
+        [JsonProperty("age")]
+        public int? Age { get; set; }
+        [JsonProperty("name")]
         public string Name { get; set; }
+        [JsonProperty("sex")]
+        [JsonConverter(typeof(StringEnumConverter))]
         public Sex Sex { get; set; }
+        [JsonProperty("zipCode")]
         public string ZipCode { get; set; }
 
         public override bool Equals(object obj)

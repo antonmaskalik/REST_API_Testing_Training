@@ -34,7 +34,7 @@ namespace ApiTestingSolution.Helpers
             var jsonContent = JsonConvert.SerializeObject(users);
             var jsonArray = JArray.Parse(jsonContent);
             var firstElement = (JObject)jsonArray.FirstOrDefault();
-            firstElement.Remove("Name");
+            firstElement.Remove("name");
             var modifiedJsonContent = jsonArray.ToString();
 
             return (users, CreateJsonFile(modifiedJsonContent));
