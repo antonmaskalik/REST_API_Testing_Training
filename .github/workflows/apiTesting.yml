@@ -1,4 +1,4 @@
-name: HttpCLient test run
+name: API test run
 on: 
  workflow_dispatch:
 
