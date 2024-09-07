@@ -1,0 +1,10 @@
+2024-09-07 17:58:07,911 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /zip-codes is created
+2024-09-07 17:58:07,915 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /zip-codes is received. Status Code: OK, Response Body: ["23456","ABCDE"]
+2024-09-07 17:58:07,915 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /users is created
+2024-09-07 17:58:07,918 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: OK, Response Body: [{"name":"IZPXJ","age":34,"sex":"MALE","zipCode":"12345"}]
+2024-09-07 17:58:07,920 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Trying to update user: Age: '34', Name: 'IZPXJ', Sex: 'MALE', ZipCode: '12345' to Age: '38', Name: 'WrEdy', Sex: 'FEMALE', ZipCode: '23456'
+2024-09-07 17:58:07,920 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Put request to /users is created
+2024-09-07 17:58:07,922 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Body of the request is: {"userNewValues":{"age":38,"name":"WrEdy","sex":"FEMALE","zipCode":"23456"},"userToChange":{"age":34,"name":"IZPXJ","sex":"MALE","zipCode":"12345"}}
+2024-09-07 17:58:07,941 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: OK, Response Body: 
+2024-09-07 17:58:07,941 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /users is created
+2024-09-07 17:58:07,944 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: OK, Response Body: [{"name":"WrEdy","age":38,"sex":"FEMALE","zipCode":"23456"}]

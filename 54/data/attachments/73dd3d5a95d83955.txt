@@ -1,0 +1,2 @@
+2024-09-07 17:58:08,226 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /zip-codes is created
+2024-09-07 17:58:08,228 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /zip-codes is received. Status Code: OK, Response Body: ["12345","TddbD","GqprFxSE"]

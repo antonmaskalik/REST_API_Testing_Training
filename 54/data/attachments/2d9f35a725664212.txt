@@ -1,0 +1,8 @@
+2024-09-07 17:58:07,982 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /users is created
+2024-09-07 17:58:07,986 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: OK, Response Body: [{"name":"uMWyn","age":50,"sex":"FEMALE","zipCode":"ABCDE"}]
+2024-09-07 17:58:07,986 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Trying to update user: Age: '50', Name: 'uMWyn', Sex: 'FEMALE', ZipCode: 'ABCDE' to Age: '1', Name: 'WPVCz', Sex: 'FEMALE', ZipCode: 'uviko'
+2024-09-07 17:58:07,986 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Patch request to /users is created
+2024-09-07 17:58:07,986 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Body of the request is: {"userNewValues":{"age":1,"name":"WPVCz","sex":"FEMALE","zipCode":"uviko"},"userToChange":{"age":50,"name":"uMWyn","sex":"FEMALE","zipCode":"ABCDE"}}
+2024-09-07 17:58:07,993 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: FailedDependency, Response Body: {"ts":1725731887991,"message":"Specified zip code is not available"}
+2024-09-07 17:58:07,993 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /users is created
+2024-09-07 17:58:08,000 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: OK, Response Body: [{"name":"uMWyn","age":50,"sex":"FEMALE","zipCode":"ABCDE"}]

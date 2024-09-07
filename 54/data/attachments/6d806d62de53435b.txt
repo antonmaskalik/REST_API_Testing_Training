@@ -1,0 +1,13 @@
+2024-09-07 17:58:07,291 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /zip-codes is created
+2024-09-07 17:58:07,307 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Read client is created
+2024-09-07 17:58:07,530 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - The client's token is recived
+2024-09-07 17:58:07,561 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /zip-codes is received. Status Code: OK, Response Body: ["12345","23456","ABCDE"]
+2024-09-07 17:58:07,563 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Post request to /users is created
+2024-09-07 17:58:07,569 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Body of the request is: {"age":34,"name":"IZPXJ","sex":"MALE","zipCode":"12345"}
+2024-09-07 17:58:07,569 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - The write client is created
+2024-09-07 17:58:07,578 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - The client's token is recived
+2024-09-07 17:58:07,729 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: Created, Response Body: 
+2024-09-07 17:58:07,730 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /users is created
+2024-09-07 17:58:07,745 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: OK, Response Body: [{"name":"IZPXJ","age":34,"sex":"MALE","zipCode":"12345"}]
+2024-09-07 17:58:07,749 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /zip-codes is created
+2024-09-07 17:58:07,752 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /zip-codes is received. Status Code: OK, Response Body: ["23456","ABCDE"]

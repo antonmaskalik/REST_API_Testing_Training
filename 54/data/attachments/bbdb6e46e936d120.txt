@@ -1,0 +1,9 @@
+2024-09-07 17:58:07,820 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /users is created
+2024-09-07 17:58:07,823 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: OK, Response Body: [{"name":"IZPXJ","age":34,"sex":"MALE","zipCode":"12345"}]
+2024-09-07 17:58:07,824 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /zip-codes is created
+2024-09-07 17:58:07,826 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /zip-codes is received. Status Code: OK, Response Body: ["23456","ABCDE"]
+2024-09-07 17:58:07,826 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Post request to /users is created
+2024-09-07 17:58:07,827 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Body of the request is: {"age":4,"name":"IZPXJ","sex":"MALE","zipCode":"23456"}
+2024-09-07 17:58:07,835 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: BadRequest, Response Body: {"ts":1725731887829,"message":"Users must be unique for complex key name+sex"}
+2024-09-07 17:58:07,835 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /users is created
+2024-09-07 17:58:07,838 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: OK, Response Body: [{"name":"IZPXJ","age":34,"sex":"MALE","zipCode":"12345"}]
