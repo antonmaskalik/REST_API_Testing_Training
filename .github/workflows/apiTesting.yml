@@ -4,7 +4,7 @@ on:
 
 jobs:
   deploy-and-test-run:
-    name: Test
+    name: HttpClient run
     runs-on: ubuntu-latest
     steps:
       - name: Pull API Docker image
