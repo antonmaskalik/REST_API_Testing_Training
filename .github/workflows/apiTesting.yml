@@ -33,11 +33,6 @@ jobs:
         with:
           ref: gh-pages
           path: gh-pages
-
-      - name: Find allure-results field 
-        run: |
-          echo "Searching for allure-results directory..."
-          find / -type d -name "allure-results" 2>/dev/null || echo "Directory not found"
           
       - name: Build Allure test report
         uses: simple-elf/allure-report-action@v1.7
