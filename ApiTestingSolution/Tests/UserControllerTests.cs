@@ -14,7 +14,7 @@ namespace ApiTestingSolution.Tests
     [AllureSuite("Tests - User controller")]
     public class UserControllerTests
     {
-        [Test, Order(1)]
+        [Test, Order(2)]
         [AllureFeature("AddCorrectUserTest")]
         [AllureStory("Validate add user with correct data")]
         public void AddCorrectUserTest()
@@ -34,7 +34,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test, Order(2)]
+        [Test, Order(3)]
         [AllureFeature("AddUserWithIncorrectZipCodeTest")]
         [AllureStory("Validate add user with incorrect zip code")]
         public void AddUserWithIncorrectZipCodeTest()
@@ -203,7 +203,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test, Order(7)]
+        [Test, Order(10)]
         [AllureFeature("DeleteUser")]
         [AllureStory("Validate delete user")]
         public void DeleteUser()
@@ -223,7 +223,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test]
+        [Test, Order(8)]
         [AllureFeature("DeleteByRequiredFieldsOnlyTest")]
         [AllureStory("Validate delete user using required fields only")]
         public void DeleteByRequiredFieldsOnlyTest()
@@ -244,7 +244,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test]
+        [Test, Order(7)]
         [AllureFeature("DeleteByMissedRequiredFieldTest")]
         [AllureStory("Validate delete user without using required fields")]
         public void DeleteByMissedRequiredFieldTest()
@@ -264,7 +264,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test]
+        [Test, Order(9)]
         [AllureFeature("UploadFileWithCorrectUsersDataTest")]
         [AllureStory("Validate upload file with correct users data")]
         public void UploadFileWithCorrectUsersDataTest()
@@ -285,8 +285,8 @@ namespace ApiTestingSolution.Tests
                 CollectionAssert.IsNotSubsetOf(usedCodes, codes, "Zip codes are not deleted from the availible Zip codes list");
             });
         }
-                
-        [Test]
+
+        [Test, Order(6)]
         [AllureFeature("UploadFileWithIncorrectZipCodeForUserTest")]
         [AllureStory("Validate upload file with incorrect zip code for some user")]
         public void UploadFileWithIncorrectZipCodeForUserTest()
