@@ -27,7 +27,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test, Order(1)]
+        [Test, Order(2)]
         [AllureFeature("ExpandAvailibleZipCodesTest")]
         [AllureStory("Validate adding correct zip code to the app")]
         public void ExpandAvailibleZipCodesTest()

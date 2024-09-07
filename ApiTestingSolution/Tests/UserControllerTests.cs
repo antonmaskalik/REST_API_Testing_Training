@@ -34,7 +34,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test]
+        [Test, Order(2)]
         [AllureFeature("AddUserWithIncorrectZipCodeTest")]
         [AllureStory("Validate add user with incorrect zip code")]
         public void AddUserWithIncorrectZipCodeTest()
@@ -53,7 +53,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test]
+        [Test, Order(3)]
         [AllureFeature("AddUserWithIncorrectNameAndSexTest")]
         [AllureStory("Validate add user with incorrect Name and Sex")]
         public void AddUserWithIncorrectNameAndSexTest()
@@ -73,7 +73,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test]
+        [Test, Order(4)]
         [AllureFeature("GetAllUsersTest")]
         [AllureStory("Validate getting all existing users from the app")]
         public void GetAllUsersTest()
@@ -87,7 +87,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test]
+        [Test, Order(4)]
         [AllureFeature("GetAllUsersByOlderThanParameterTest")]
         [AllureStory("Validate getting users by parameter Older than")]
         public void GetAllUsersByOlderThanParameterTest()
@@ -103,7 +103,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test]
+        [Test, Order(4)]
         [AllureFeature("GetAllUsersByYoungerThanParameterTest")]
         [AllureStory("Validate getting users by parameter Younger than")]
         public void GetAllUsersByYoungerThanParameterTest()
@@ -119,7 +119,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test]
+        [Test, Order(4)]
         [AllureFeature("GetAllUsersBySexParameterTest")]
         [AllureStory("Validate getting users by parameter Sex equal to")]
         public void GetAllUsersBySexParameterTest()
@@ -136,7 +136,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [TestCase(Method.Put)]
+        [TestCase(Method.Put), Order(5)]
         [TestCase(Method.Patch)]
         [AllureFeature("UpdateUserTest")]
         [AllureStory("Validate updating user by correct data")]
@@ -162,7 +162,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [TestCase(Method.Put)]
+        [TestCase(Method.Put), Order(5)]
         [TestCase(Method.Patch)]
         [AllureFeature("UpdateUserByIncorrectZipCodeTest")]
         [AllureStory("Validate updating user by incorrect zip code")]
@@ -186,7 +186,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [TestCase(Method.Put)]
+        [TestCase(Method.Put), Order(5)]
         [TestCase(Method.Patch)]
         [AllureFeature("UpdateUserByIncorrectRequestBodyTest")]
         [AllureStory("Validate updating user by incorrect body request")]
@@ -308,7 +308,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test, Order(2)]
+        [Test, Order(6)]
         [AllureFeature("UploadFileWithMissedRequiredFieldTest")]
         [AllureStory("Validate upload file with missed required fields for some user")]
         public void UploadFileWithMissedRequiredFieldTest()
