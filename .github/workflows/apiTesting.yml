@@ -14,6 +14,8 @@ jobs:
       
       - name: Setup .Net SDK
         uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
       
       - name: Get repository code
         uses: actions/checkout@v4
@@ -35,10 +37,12 @@ jobs:
       - name: Build Allure test report
         uses: simple-elf/allure-report-action@v1.7
         if: always()
+        id: allure-report
         with:
           gh_pages: gh-pages
           allure_history: allure-history
-          allure_results: build/allure-results
+          allure_report: allure-report
+          allure_results: ApiTestingSolution/bin/Debug/net8.0/allure-results
 
       - name: Publish Allure test report
         uses: peaceiris/actions-gh-pages@v3
