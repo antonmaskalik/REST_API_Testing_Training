@@ -29,20 +29,24 @@ jobs:
       - name: Run tests
         run: dotnet test ApiTestingSolution/ApiTestingSolution.sln --logger "trx;LogFileName=test-results.trx" --results-directory ./allure-results --no-build
       - name: Download and install Allure
+        if: always()
         run: |
           sudo apt-get install -y openjdk-11-jdk
           curl -o allure-commandline.tgz -L https://github.com/allure-framework/allure2/releases/download/2.20.1/allure-2.20.1.tgz
           tar -zxvf allure-commandline.tgz -C /opt/
           sudo ln -s /opt/allure-2.20.1/bin/allure /usr/bin/allure
       - name: Generate Allure report
+        if: always()
         run: |
           allure generate ./allure-results -o ./allure-report
       - name: Upload Allure report as artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: allure-report
           path: ./allure-report
       - name: Upload test results as artifact (optional)
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-results
