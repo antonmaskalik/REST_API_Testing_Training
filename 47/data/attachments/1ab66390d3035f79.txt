@@ -1,0 +1,6 @@
+2024-09-07 15:31:55,773 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - POST request to http://localhost:8082/zip-codes/expand is created
+2024-09-07 15:31:55,773 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Body of the request is: ["WUUYo","ifHObheD"]
+2024-09-07 15:31:55,773 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Sending request to http://localhost:8082/zip-codes/expand with method POST
+2024-09-07 15:31:55,773 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Sending write request to http://localhost:8082/zip-codes/expand
+2024-09-07 15:31:55,777 [16] INFO  ApiTestingSolution.Logging.Logger - Received write response with status code Created
+2024-09-07 15:31:55,777 [16] INFO  ApiTestingSolution.Logging.Logger - Response from http://localhost:8082/zip-codes/expand is received. Status Code: 201, Response Body: ["ABCDE","12345","23456","WUUYo","ifHObheD"]
