@@ -1,5 +1,0 @@
-2024-09-07 16:07:49,692 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - GET request to http://localhost:8082/users is created
-2024-09-07 16:07:49,692 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Sending request to http://localhost:8082/users with method GET
-2024-09-07 16:07:49,692 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Sending read request to http://localhost:8082/users
-2024-09-07 16:07:49,696 [7] INFO  ApiTestingSolution.Logging.Logger - Received read response with status code OK
-2024-09-07 16:07:49,696 [7] INFO  ApiTestingSolution.Logging.Logger - Response from http://localhost:8082/users is received. Status Code: 200, Response Body: [{"name":"BWPEi","age":27,"sex":"MALE","zipCode":"12345"}]

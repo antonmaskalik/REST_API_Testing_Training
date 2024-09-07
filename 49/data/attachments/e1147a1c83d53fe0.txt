@@ -1,0 +1,22 @@
+2024-09-07 17:33:53,171 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - GET request to http://localhost:8082/zip-codes is created
+2024-09-07 17:33:53,171 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Sending request to http://localhost:8082/zip-codes with method GET
+2024-09-07 17:33:53,172 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Sending read request to http://localhost:8082/zip-codes
+2024-09-07 17:33:53,175 [12] INFO  ApiTestingSolution.Logging.Logger - Received read response with status code OK
+2024-09-07 17:33:53,175 [12] INFO  ApiTestingSolution.Logging.Logger - Response from http://localhost:8082/zip-codes is received. Status Code: 200, Response Body: ["12345","23456"]
+2024-09-07 17:33:53,182 [12] INFO  ApiTestingSolution.Logging.Logger - The JSON file was successfully created along the path: /home/runner/work/REST_API_Testing_Training/REST_API_Testing_Training/ApiTestingSolution/bin/Debug/net8.0/users.json
+2024-09-07 17:33:53,186 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - POST request to http://localhost:8082/users/upload is created
+2024-09-07 17:33:53,187 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Uploading file: /home/runner/work/REST_API_Testing_Training/REST_API_Testing_Training/ApiTestingSolution/bin/Debug/net8.0/users.json
+2024-09-07 17:33:53,187 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Sending request to http://localhost:8082/users/upload with method POST
+2024-09-07 17:33:53,187 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Sending write request to http://localhost:8082/users/upload
+2024-09-07 17:33:53,229 [7] INFO  ApiTestingSolution.Logging.Logger - Received write response with status code Conflict
+2024-09-07 17:33:53,229 [7] INFO  ApiTestingSolution.Logging.Logger - Response from http://localhost:8082/users/upload is received. Status Code: 409, Response Body: {"ts":1725730433228,"message":"Some required fields are missed"}
+2024-09-07 17:33:53,229 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - GET request to http://localhost:8082/users is created
+2024-09-07 17:33:53,229 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Sending request to http://localhost:8082/users with method GET
+2024-09-07 17:33:53,229 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Sending read request to http://localhost:8082/users
+2024-09-07 17:33:53,231 [13] INFO  ApiTestingSolution.Logging.Logger - Received read response with status code OK
+2024-09-07 17:33:53,231 [13] INFO  ApiTestingSolution.Logging.Logger - Response from http://localhost:8082/users is received. Status Code: 200, Response Body: [{"name":"sxFgE","age":57,"sex":"FEMALE","zipCode":"ABCDE"}]
+2024-09-07 17:33:53,231 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - GET request to http://localhost:8082/zip-codes is created
+2024-09-07 17:33:53,231 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Sending request to http://localhost:8082/zip-codes with method GET
+2024-09-07 17:33:53,231 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Sending read request to http://localhost:8082/zip-codes
+2024-09-07 17:33:53,233 [13] INFO  ApiTestingSolution.Logging.Logger - Received read response with status code OK
+2024-09-07 17:33:53,233 [13] INFO  ApiTestingSolution.Logging.Logger - Response from http://localhost:8082/zip-codes is received. Status Code: 200, Response Body: ["12345","23456"]

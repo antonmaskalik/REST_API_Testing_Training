@@ -1,8 +1,0 @@
-2024-09-07 15:30:04,882 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /users is created
-2024-09-07 15:30:04,885 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: OK, Response Body: [{"name":"ORbEl","age":36,"sex":"FEMALE","zipCode":"ABCDE"}]
-2024-09-07 15:30:04,885 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Trying to update user: Age: '36', Name: 'ORbEl', Sex: 'FEMALE', ZipCode: 'ABCDE' to 
-2024-09-07 15:30:04,886 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Put request to /users is created
-2024-09-07 15:30:04,886 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Body of the request is: {"userNewValues":null,"userToChange":{"age":36,"name":"ORbEl","sex":"FEMALE","zipCode":"ABCDE"}}
-2024-09-07 15:30:04,888 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: BadRequest, Response Body: {"ts":1725723004887,"message":"User to change is not found or is null or new values are null"}
-2024-09-07 15:30:04,889 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /users is created
-2024-09-07 15:30:04,890 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: OK, Response Body: [{"name":"ORbEl","age":36,"sex":"FEMALE","zipCode":"ABCDE"}]
