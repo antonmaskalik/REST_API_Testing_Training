@@ -1,4 +1,4 @@
-name: HttpCLient
+name: HttpCLient test run
 on: workflow_dispatch
 
 jobs:
