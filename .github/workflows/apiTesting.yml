@@ -17,6 +17,7 @@ jobs:
       - name: Run API Docker container
         run: docker run -d -p 8082:8082 coherentsolutions/rest-training:2.0   
       - name: Setup .Net SDK
+        if: always()
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
@@ -52,4 +53,5 @@ jobs:
           name: test-results
           path: ./allure-results
       - name: Provide link to the Allure report
+        if: always()
         run: echo "## 📊 [Allure report available here](https://${{ github.repository_owner }}.github.io/REST_API_Testing_Training/)" >> $GITHUB_STEP_SUMMARY
