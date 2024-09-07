@@ -1,0 +1,3 @@
+2024-09-07 18:06:28,406 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /users is created
+2024-09-07 18:06:28,407 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Parameter youngerThan=20 is added to the GET request
+2024-09-07 18:06:28,425 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: OK, Response Body: []

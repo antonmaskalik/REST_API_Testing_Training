@@ -1,0 +1,2 @@
+2024-09-07 18:06:28,397 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /users is created
+2024-09-07 18:06:28,402 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: OK, Response Body: [{"name":"oujXh","age":51,"sex":"MALE","zipCode":"12345"}]

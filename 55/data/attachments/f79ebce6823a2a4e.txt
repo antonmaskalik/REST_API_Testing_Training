@@ -1,0 +1,10 @@
+2024-09-07 18:06:28,621 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /zip-codes is created
+2024-09-07 18:06:28,627 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /zip-codes is received. Status Code: OK, Response Body: ["12345","23456"]
+2024-09-07 18:06:28,632 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - The JSON file was successfully created along the path: /home/runner/work/REST_API_Testing_Training/REST_API_Testing_Training/ApiTestingSolution/bin/Debug/net8.0/users.json
+2024-09-07 18:06:28,632 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Post request to /users/upload is created
+2024-09-07 18:06:28,633 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Upload file: /home/runner/work/REST_API_Testing_Training/REST_API_Testing_Training/ApiTestingSolution/bin/Debug/net8.0/users.json
+2024-09-07 18:06:28,691 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users/upload is received. Status Code: Conflict, Response Body: {"ts":1725732388688,"message":"Some required fields are missed"}
+2024-09-07 18:06:28,691 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /users is created
+2024-09-07 18:06:28,695 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: OK, Response Body: [{"name":"fPmkT","age":45,"sex":"FEMALE","zipCode":"ABCDE"}]
+2024-09-07 18:06:28,695 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /zip-codes is created
+2024-09-07 18:06:28,699 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /zip-codes is received. Status Code: OK, Response Body: ["12345","23456"]
