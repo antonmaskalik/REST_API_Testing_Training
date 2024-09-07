@@ -8,9 +8,9 @@ permissions:
   id-token: write
   
 jobs:
-  deploy-and-test-run:
-    name: Deploy and test run
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest    
+    name: Build and test run
     steps:
       - name: Pull API Docker image
         run: docker pull coherentsolutions/rest-training:2.0      
@@ -18,41 +18,34 @@ jobs:
         run: docker run -d -p 8082:8082 coherentsolutions/rest-training:2.0   
       - name: Setup .Net SDK
         uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
       - name: Get repository code
         uses: actions/checkout@v4
       - name: Restore NuGet packages
         run: dotnet restore ApiTestingSolution/ApiTestingSolution.sln
       - name: Build ApiTestingSolution
-        run: dotnet build ApiTestingSolution/ApiTestingSolution.sln --configuration Release
+        run: dotnet build ApiTestingSolution/ApiTestingSolution.sln
       - name: Run tests
-        run: dotnet test ApiTestingSolution/ApiTestingSolution.sln --logger "trx" --collect:JUnit
-      - name: Generate Allure reports
-        run: allure generate allure-results --output-dir allure-results
-      - name: Store Allure results
-        if: always()
-        uses: actions/upload-artifact@v3
+        run: dotnet test ApiTestingSolution/ApiTestingSolution.sln --logger "trx;LogFileName=test-results.trx" --results-directory ./allure-results --no-build
+      - name: Download and install Allure
+        run: |
+          sudo apt-get install -y openjdk-11-jdk
+          curl -o allure-commandline.tgz -L https://github.com/allure-framework/allure2/releases/download/2.20.1/allure-2.20.1.tgz
+          tar -zxvf allure-commandline.tgz -C /opt/
+          sudo ln -s /opt/allure-2.20.1/bin/allure /usr/bin/allure
+      - name: Generate Allure report
+        run: |
+          allure generate ./allure-results -o ./allure-report
+      - name: Upload Allure report as artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: allure-results
-          path: allure-results
-          
-  generate-allure-report:
-    name: Generate and publish Allure report
-    needs: deploy-and-test-run
-    runs-on: ubuntu-latest
-    if: always()
-    steps:
-      - uses: actions/setup-java@v3
+          name: allure-report
+          path: ./allure-report
+      - name: Upload test results as artifact (optional)
+        uses: actions/upload-artifact@v4
         with:
-          distribution: 'microsoft'
-          java-version: '17'
-      - run: sudo wget https://github.com/allure-framework/allure2/releases/download/2.23.1/allure-2.23.1.tgz && sudo tar -zxvf allure-2.23.1.tgz -C /opt/ && sudo ln -s /opt/allure-2.23.1/bin/allure /usr/bin/allure
-      - name: Download all workflow run artifacts
-        uses: actions/download-artifact@v3
-      - run: allure generate -c allure-results -o _site
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v2
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v1.2.9
+          name: test-results
+          path: ./allure-results
       - name: Provide link to the Allure report
         run: echo "## 📊 [Allure report available here](https://${{ github.repository_owner }}.github.io/REST_API_Testing_Training/)" >> $GITHUB_STEP_SUMMARY
