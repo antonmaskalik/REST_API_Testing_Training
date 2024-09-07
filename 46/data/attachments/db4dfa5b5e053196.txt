@@ -1,0 +1,3 @@
+2024-09-07 15:40:22,472 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Post request to /zip-codes/expand is created
+2024-09-07 15:40:22,472 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Body of the request is: ["UsKbJ","kScbjcRI"]
+2024-09-07 15:40:22,479 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /zip-codes/expand is received. Status Code: Created, Response Body: ["12345","UsKbJ","kScbjcRI"]
