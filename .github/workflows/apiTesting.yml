@@ -26,6 +26,8 @@ jobs:
         run: dotnet build ApiTestingSolution/ApiTestingSolution.sln --configuration Release
       - name: Run tests
         run: dotnet test ApiTestingSolution/ApiTestingSolution.sln
+      - name: Generate Allure reports
+        run: allure report allure-results
       - name: Store Allure results
         if: always()
         uses: actions/upload-artifact@v3
