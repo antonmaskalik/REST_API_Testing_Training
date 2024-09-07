@@ -1,13 +1,16 @@
 ﻿using ApiTestingSolution.ClientFactory;
+using ApiTestingSolution.Helpers;
 using ApiTestingSolution.Logging;
+using ApiTestingSolution.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ApiTestingSolution.Tests
 {
-    [SetUpFixture]
-    public class TestSetup
+    public abstract class BaseTest
     {
-        public static ServiceProvider ServiceProvider { get; private set; }
+        protected static ServiceProvider ServiceProvider { get; private set; }
+        protected static ZipCodeControllerService ZipCodeService { get; private set; }
+        protected static UserControllerService UserControllerService { get; private set; }
 
         [OneTimeSetUp]
         public void GlobalSetup()
@@ -16,6 +19,9 @@ namespace ApiTestingSolution.Tests
             Logger.Info("Registering dependencies");
             serviceCollection.AddApiClients();
             ServiceProvider = serviceCollection.BuildServiceProvider();
+            ZipCodeService = ServiceProvider.GetRequiredService<ZipCodeControllerService>();
+            UserControllerService = ServiceProvider.GetRequiredService<UserControllerService>();
+            UserHelpers.Initialize(ZipCodeService);
             Logger.Info("Global setup completed");
         }
 
