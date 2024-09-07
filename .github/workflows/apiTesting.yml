@@ -37,13 +37,10 @@ jobs:
       - name: Install Allure
         if: always()
         run: npm install -g allure-commandline --save-dev
-      
-      - name: Verify Test Results
-        run: ls -la ./TestResults
-
+        
       - name: Generate Allure report
         if: always()
-        run: allure generate ./TestResults --clean
+        run: allure generate --clean
       
       - name: Load test report history
         uses: actions/checkout@v3
@@ -70,4 +67,5 @@ jobs:
           publish_dir: allure-history
 
       - name: Provide link to the Allure report
+        if: always()
         run: echo "## 📊 [Allure report available here](https://${{ github.repository_owner }}.github.io/REST_API_Testing_Training/)" >> $GITHUB_STEP_SUMMARY
