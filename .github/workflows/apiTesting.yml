@@ -35,30 +35,24 @@ jobs:
           ref: gh-pages
           path: gh-pages
           
-      - name: Set branch-specific paths
-        run: echo "BRANCH_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
-          
       - name: Build Allure test report
         uses: simple-elf/allure-report-action@v1.7
         if: always()
         id: allure-report
         with:
-          gh_pages: gh-pages/${{ github.BRANCH_NAME  }}
-          allure_history: gh-pages/${{ github.BRANCH_NAME  }}/allure-history
+          gh_pages: gh-pages
+          allure_history: allure-history
           allure_report: allure-report
           allure_results: ApiTestingSolution/bin/Debug/net8.0/allure-results
-      
-      - name: Create branch-specific directory
-        run: mkdir -p gh-pages/${{ github.BRANCH_NAME  }}/allure-history
-        
+          
       - name: Publish Allure test report
         uses: peaceiris/actions-gh-pages@v3
         if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: gh-pages/${{ github.BRANCH_NAME  }}/allure-history
+          publish_dir: allure-history
 
       - name: Provide link to the Allure report
         if: always()
-        run: echo "## 📊 [Allure report available here](https://${{ github.repository_owner }}.github.io/REST_API_Testing_Training/${{ github.BRANCH_NAME  }})" >> $GITHUB_STEP_SUMMARY 
+        run: echo "## 📊 [Allure report available here](https://${{ github.repository_owner }}.github.io/REST_API_Testing_Training/${{ github.run_id  }})" >> $GITHUB_STEP_SUMMARY 
