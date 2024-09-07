@@ -1,0 +1,16 @@
+2024-09-07 18:09:54,589 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - GET request to http://localhost:8082/users is created
+2024-09-07 18:09:54,589 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Sending request to http://localhost:8082/users with method GET
+2024-09-07 18:09:54,589 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Sending read request to http://localhost:8082/users
+2024-09-07 18:09:54,593 [8] INFO  ApiTestingSolution.Logging.Logger - Received read response with status code OK
+2024-09-07 18:09:54,593 [8] INFO  ApiTestingSolution.Logging.Logger - Response from http://localhost:8082/users is received. Status Code: 200, Response Body: [{"name":"KeTvG","age":32,"sex":"MALE","zipCode":"12345"}]
+2024-09-07 18:09:54,593 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - POST request to http://localhost:8082/users is created
+2024-09-07 18:09:54,593 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Body of the request is: {"age":34,"name":"KeTvGcngzW","sex":"MALE","zipCode":"12345"}
+2024-09-07 18:09:54,593 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Sending request to http://localhost:8082/users with method POST
+2024-09-07 18:09:54,593 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Sending write request to http://localhost:8082/users
+2024-09-07 18:09:54,607 [16] INFO  ApiTestingSolution.Logging.Logger - Received write response with status code FailedDependency
+2024-09-07 18:09:54,607 [16] INFO  ApiTestingSolution.Logging.Logger - Response from http://localhost:8082/users is received. Status Code: 424, Response Body: {"ts":1725732594597,"message":"Specified zip code is not available"}
+2024-09-07 18:09:54,607 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - GET request to http://localhost:8082/users is created
+2024-09-07 18:09:54,607 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Sending request to http://localhost:8082/users with method GET
+2024-09-07 18:09:54,607 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Sending read request to http://localhost:8082/users
+2024-09-07 18:09:54,610 [16] INFO  ApiTestingSolution.Logging.Logger - Received read response with status code OK
+2024-09-07 18:09:54,610 [16] INFO  ApiTestingSolution.Logging.Logger - Response from http://localhost:8082/users is received. Status Code: 200, Response Body: [{"name":"KeTvG","age":32,"sex":"MALE","zipCode":"12345"}]
