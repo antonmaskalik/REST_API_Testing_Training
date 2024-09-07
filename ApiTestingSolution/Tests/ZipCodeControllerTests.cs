@@ -1,31 +1,21 @@
-using ApiTestingSolution.Services;
 using System.Net;
 using ApiTestingSolution.Helpers;
 using NUnit.Framework.Legacy;
 using Allure.NUnit.Attributes;
 using Allure.NUnit;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace ApiTestingSolution.Tests
 {
     [AllureNUnit]
     [AllureSuite("Tests - ZipCode controller")]
-    public class ZipCodeControllerTests
+    public class ZipCodeControllerTests : BaseTest
     {
-        private ZipCodeControllerService _zipCodeService;
-
-        [OneTimeSetUp]
-        public void Setup()
-        {
-            _zipCodeService = TestSetup.ServiceProvider.GetRequiredService<ZipCodeControllerService>();
-        }
-
         [Test, Order(1)]
         [AllureFeature("GetAvailableZipCodesTest")]
         [AllureStory("Validate get all available zip codes from the app")]
         public async Task GetAvailableZipCodesTest()
         {
-            var response = await _zipCodeService.GetAvailableZipCodesAsync();
+            var response = await ZipCodeService.GetAvailableZipCodesAsync();
             var codes = await JsonHelper.DeserializeJsonContentAsync<List<string>>(response);
 
             Assert.Multiple(() =>
@@ -46,7 +36,7 @@ namespace ApiTestingSolution.Tests
                 RandomHelper.GetRandomString(8)
             };
 
-            var response = await _zipCodeService.ExpendAvailableZipCodesAsync(zipCodes);
+            var response = await ZipCodeService.ExpendAvailableZipCodesAsync(zipCodes);
             var actualCodes = await JsonHelper.DeserializeJsonContentAsync<List<string>>(response);
 
             Assert.Multiple(() =>
@@ -61,14 +51,14 @@ namespace ApiTestingSolution.Tests
         [AllureStory("Validate adding incorrect zip code to the app")]
         public async Task ExpandAvailableZipCodesByDuplicationsTest()
         {
-            var response = await _zipCodeService.GetAvailableZipCodesAsync();
+            var response = await ZipCodeService.GetAvailableZipCodesAsync();
             var actualCodes = await JsonHelper.DeserializeJsonContentAsync<List<string>>(response);
             var zipCodes = new List<string>(actualCodes)
         {
             actualCodes.First()
         };
 
-            response = await _zipCodeService.ExpendAvailableZipCodesAsync(zipCodes);
+            response = await ZipCodeService.ExpendAvailableZipCodesAsync(zipCodes);
             actualCodes = await JsonHelper.DeserializeJsonContentAsync<List<string>>(response);
 
             Assert.Multiple(() =>

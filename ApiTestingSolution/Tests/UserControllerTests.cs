@@ -2,9 +2,7 @@
 using Allure.NUnit.Attributes;
 using ApiTestingSolution.Enums;
 using ApiTestingSolution.Helpers;
-using ApiTestingSolution.Services;
 using ApiTestingSolution.Models;
-using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework.Legacy;
 using System.Net;
 using Newtonsoft.Json.Linq;
@@ -13,11 +11,8 @@ namespace ApiTestingSolution.Tests
 {
     [AllureNUnit]
     [AllureSuite("Tests - User controller")]
-    public class UserControllerTests
+    public class UserControllerTests : BaseTest
     {
-
-        private ZipCodeControllerService _zipCodeService;
-        private UserControllerService _userControllerService;
         private static IEnumerable<TestCaseData> HttpMethods
         {
             get
@@ -27,14 +22,6 @@ namespace ApiTestingSolution.Tests
             }
         }
 
-        [OneTimeSetUp]
-        public void Setup()
-        {
-            _zipCodeService = TestSetup.ServiceProvider.GetRequiredService<ZipCodeControllerService>();
-            _userControllerService = TestSetup.ServiceProvider.GetRequiredService<UserControllerService>();
-            UserHelpers.Initialize(_zipCodeService);
-        }
-
         [Test, Order(1)]
         [AllureFeature("AddCorrectUserTest")]
         [AllureStory("Validate add user with correct data")]
@@ -42,9 +29,9 @@ namespace ApiTestingSolution.Tests
         {
             var user = UserHelpers.GetRandomUsersListAsync().Result.FirstOrDefault();
 
-            var response = _userControllerService.CreateUserAsync(user).Result;
-            var users = _userControllerService.GetAllUsersAsync().Result.Users;
-            var zipCodes = _zipCodeService.GetAvailableZipCodesAsync().Result;
+            var response = UserControllerService.CreateUserAsync(user).Result;
+            var users = UserControllerService.GetAllUsersAsync().Result.Users;
+            var zipCodes = ZipCodeService.GetAvailableZipCodesAsync().Result;
             var codes = JsonHelper.DeserializeJsonContentAsync<List<string>>(zipCodes).Result;
 
             Assert.Multiple(() =>
@@ -60,12 +47,12 @@ namespace ApiTestingSolution.Tests
         [AllureStory("Validate add user with incorrect zip code")]
         public void AddUserWithIncorrectZipCodeTest()
         {
-            var user = _userControllerService.GetAllUsersAsync().Result.Users.FirstOrDefault();
+            var user = UserControllerService.GetAllUsersAsync().Result.Users.FirstOrDefault();
             user.Name += RandomHelper.GetRandomString();
             user.Age += RandomHelper.GetRandomInt(10);
 
-            var response = _userControllerService.CreateUserAsync(user).Result;
-            var users = _userControllerService.GetAllUsersAsync().Result.Users;
+            var response = UserControllerService.CreateUserAsync(user).Result;
+            var users = UserControllerService.GetAllUsersAsync().Result.Users;
 
             Assert.Multiple(() =>
             {
@@ -79,13 +66,13 @@ namespace ApiTestingSolution.Tests
         [AllureStory("Validate add user with incorrect Name and Sex")]
         public void AddUserWithIncorrectNameAndSexTest()
         {
-            var user = _userControllerService.GetAllUsersAsync().Result.Users.First();
-            var zipCodes = _zipCodeService.GetAvailableZipCodesAsync().Result;
+            var user = UserControllerService.GetAllUsersAsync().Result.Users.First();
+            var zipCodes = ZipCodeService.GetAvailableZipCodesAsync().Result;
             user.ZipCode = JsonHelper.DeserializeJsonContentAsync<List<string>>(zipCodes).Result.First();
             user.Age = RandomHelper.GetRandomInt(10);
 
-            var response = _userControllerService.CreateUserAsync(user).Result;
-            var users = _userControllerService.GetAllUsersAsync().Result.Users;
+            var response = UserControllerService.CreateUserAsync(user).Result;
+            var users = UserControllerService.GetAllUsersAsync().Result.Users;
 
             Assert.Multiple(() =>
             {
@@ -99,7 +86,7 @@ namespace ApiTestingSolution.Tests
         [AllureStory("Validate getting all existing users from the app")]
         public void GetAllUsersTest()
         {
-            (var users, var statusCode) = _userControllerService.GetAllUsersAsync().Result;
+            (var users, var statusCode) = UserControllerService.GetAllUsersAsync().Result;
 
             Assert.Multiple(() =>
             {
@@ -115,7 +102,7 @@ namespace ApiTestingSolution.Tests
         {
             var olderThanValue = 20;
 
-            (var users, var statusCode) = _userControllerService.GetAllUsersAsync(olderThan: olderThanValue).Result;
+            (var users, var statusCode) = UserControllerService.GetAllUsersAsync(olderThan: olderThanValue).Result;
 
             Assert.Multiple(() =>
             {
@@ -131,7 +118,7 @@ namespace ApiTestingSolution.Tests
         {
             var youngerThanValue = 20;
 
-            (var users, var statusCode) = _userControllerService.GetAllUsersAsync(youngerThan: youngerThanValue).Result;
+            (var users, var statusCode) = UserControllerService.GetAllUsersAsync(youngerThan: youngerThanValue).Result;
 
             Assert.Multiple(() =>
             {
@@ -147,7 +134,7 @@ namespace ApiTestingSolution.Tests
         {
             var sex = Sex.FEMALE;
 
-            (var users, var statusCode) = _userControllerService.GetAllUsersAsync(sex: sex).Result;
+            (var users, var statusCode) = UserControllerService.GetAllUsersAsync(sex: sex).Result;
 
             Assert.Multiple(() =>
             {
@@ -162,17 +149,17 @@ namespace ApiTestingSolution.Tests
         [AllureStory("Validate updating user by correct data")]
         public void UpdateUserTest(HttpMethod method)
         {
-            var zipCodes = _zipCodeService.GetAvailableZipCodesAsync().Result;
+            var zipCodes = ZipCodeService.GetAvailableZipCodesAsync().Result;
             var codes = JsonHelper.DeserializeJsonContentAsync<List<string>>(zipCodes).Result;
-            var userToUpdate = _userControllerService.GetAllUsersAsync().Result.Users.FirstOrDefault();
+            var userToUpdate = UserControllerService.GetAllUsersAsync().Result.Users.FirstOrDefault();
             var userNewValues = (User)userToUpdate.Clone();
             userNewValues.Age = RandomHelper.GetRandomInt(1, 60);
             userNewValues.Name = RandomHelper.GetRandomString();
             userNewValues.Sex = Sex.FEMALE;
             userNewValues.ZipCode = codes.FirstOrDefault();
 
-            var updateUserResponse = _userControllerService.UpdateUserAsync(userToUpdate, userNewValues, method).Result;
-            var allUsers = _userControllerService.GetAllUsersAsync().Result.Users;
+            var updateUserResponse = UserControllerService.UpdateUserAsync(userToUpdate, userNewValues, method).Result;
+            var allUsers = UserControllerService.GetAllUsersAsync().Result.Users;
 
             Assert.Multiple(() =>
             {
@@ -187,15 +174,15 @@ namespace ApiTestingSolution.Tests
         [AllureStory("Validate updating user by incorrect zip code")]
         public void UpdateUserByIncorrectZipCodeTest(HttpMethod method)
         {
-            var userToUpdate = _userControllerService.GetAllUsersAsync().Result.Users.FirstOrDefault();
+            var userToUpdate = UserControllerService.GetAllUsersAsync().Result.Users.FirstOrDefault();
             var userNewValues = (User)userToUpdate.Clone();
             userNewValues.Age = RandomHelper.GetRandomInt(1, 60);
             userNewValues.Name = RandomHelper.GetRandomString();
             userNewValues.Sex = Sex.FEMALE;
             userNewValues.ZipCode = RandomHelper.GetRandomString();
 
-            var updateUserResponse = _userControllerService.UpdateUserAsync(userToUpdate, userNewValues, method).Result;
-            var allUsers = _userControllerService.GetAllUsersAsync().Result.Users;
+            var updateUserResponse = UserControllerService.UpdateUserAsync(userToUpdate, userNewValues, method).Result;
+            var allUsers = UserControllerService.GetAllUsersAsync().Result.Users;
 
             Assert.Multiple(() =>
             {
@@ -210,9 +197,9 @@ namespace ApiTestingSolution.Tests
         [AllureStory("Validate updating user by incorrect body request")]
         public void UpdateUserByIncorrectRequestBodyTest(HttpMethod method)
         {
-            var userToUpdate = _userControllerService.GetAllUsersAsync().Result.Users.FirstOrDefault();
-            var updateUserResponse = _userControllerService.UpdateUserAsync(userToUpdate, null, method).Result;
-            var allUsers = _userControllerService.GetAllUsersAsync().Result.Users;
+            var userToUpdate = UserControllerService.GetAllUsersAsync().Result.Users.FirstOrDefault();
+            var updateUserResponse = UserControllerService.UpdateUserAsync(userToUpdate, null, method).Result;
+            var allUsers = UserControllerService.GetAllUsersAsync().Result.Users;
 
             Assert.Multiple(() =>
             {
@@ -226,12 +213,12 @@ namespace ApiTestingSolution.Tests
         [AllureStory("Validate delete user")]
         public void DeleteUser()
         {
-            var userToDelete = _userControllerService.GetAllUsersAsync().Result.Users.FirstOrDefault();
+            var userToDelete = UserControllerService.GetAllUsersAsync().Result.Users.FirstOrDefault();
 
-            var response = _userControllerService.DeleteUserAsync(userToDelete).Result;
-            var zipCodes = _zipCodeService.GetAvailableZipCodesAsync().Result;
+            var response = UserControllerService.DeleteUserAsync(userToDelete).Result;
+            var zipCodes = ZipCodeService.GetAvailableZipCodesAsync().Result;
             var codes = JsonHelper.DeserializeJsonContentAsync<List<string>>(zipCodes).Result;
-            var users = _userControllerService.GetAllUsersAsync().Result.Users;
+            var users = UserControllerService.GetAllUsersAsync().Result.Users;
 
             Assert.Multiple(() =>
             {
@@ -246,13 +233,13 @@ namespace ApiTestingSolution.Tests
         [AllureStory("Validate delete user using required fields only")]
         public void DeleteByRequiredFieldsOnlyTest()
         {
-            var userToDelete = _userControllerService.GetAllUsersAsync().Result.Users.FirstOrDefault();
+            var userToDelete = UserControllerService.GetAllUsersAsync().Result.Users.FirstOrDefault();
             var jsonBody = JObject.Parse($"{{ \"name\": \"{userToDelete.Name}\", \"sex\": \"{userToDelete.Sex}\" }}");
 
-            var response = _userControllerService.DeleteUserAsync(jsonBody).Result;
-            var zipCodes = _zipCodeService.GetAvailableZipCodesAsync().Result;
+            var response = UserControllerService.DeleteUserAsync(jsonBody).Result;
+            var zipCodes = ZipCodeService.GetAvailableZipCodesAsync().Result;
             var codes = JsonHelper.DeserializeJsonContentAsync<List<string>>(zipCodes).Result;
-            var users = _userControllerService.GetAllUsersAsync().Result.Users;
+            var users = UserControllerService.GetAllUsersAsync().Result.Users;
 
             Assert.Multiple(() =>
             {
@@ -267,13 +254,13 @@ namespace ApiTestingSolution.Tests
         [AllureStory("Validate delete user without using required fields")]
         public void DeleteByMissedRequiredFieldTest()
         {
-            var userToDelete = _userControllerService.GetAllUsersAsync().Result.Users.FirstOrDefault();
+            var userToDelete = UserControllerService.GetAllUsersAsync().Result.Users.FirstOrDefault();
             var jsonBody = JObject.Parse($"{{ \"age\": {userToDelete.Age}, \"sex\": \"{userToDelete.Sex}\", \"zipCode\": \"{userToDelete.ZipCode}\" }}");
 
-            var response = _userControllerService.DeleteUserAsync(jsonBody).Result;
-            var zipCodes = _zipCodeService.GetAvailableZipCodesAsync().Result;
+            var response = UserControllerService.DeleteUserAsync(jsonBody).Result;
+            var zipCodes = ZipCodeService.GetAvailableZipCodesAsync().Result;
             var codes = JsonHelper.DeserializeJsonContentAsync<List<string>>(zipCodes).Result;
-            var users = _userControllerService.GetAllUsersAsync().Result.Users;
+            var users = UserControllerService.GetAllUsersAsync().Result.Users;
 
             Assert.Multiple(() =>
             {
@@ -291,10 +278,10 @@ namespace ApiTestingSolution.Tests
             var usersFromFile = file.Users;
             var usedCodes = usersFromFile.Select(user => user.ZipCode).ToList();
 
-            var response = _userControllerService.UploadFileWithUsersAsync(file.FilePath).Result;
-            var zipCodes = _zipCodeService.GetAvailableZipCodesAsync().Result;
+            var response = UserControllerService.UploadFileWithUsersAsync(file.FilePath).Result;
+            var zipCodes = ZipCodeService.GetAvailableZipCodesAsync().Result;
             var codes = JsonHelper.DeserializeJsonContentAsync<List<string>>(zipCodes).Result;
-            var users = _userControllerService.GetAllUsersAsync().Result.Users;
+            var users = UserControllerService.GetAllUsersAsync().Result.Users;
 
             Assert.Multiple(() =>
             {
@@ -313,10 +300,10 @@ namespace ApiTestingSolution.Tests
             var usersFromFile = file.Users;
             var usedCodes = usersFromFile.Select(user => user.ZipCode);
 
-            var response = _userControllerService.UploadFileWithUsersAsync(file.FilePath).Result;
-            var zipCodes = _zipCodeService.GetAvailableZipCodesAsync().Result;
+            var response = UserControllerService.UploadFileWithUsersAsync(file.FilePath).Result;
+            var zipCodes = ZipCodeService.GetAvailableZipCodesAsync().Result;
             var codes = JsonHelper.DeserializeJsonContentAsync<List<string>>(zipCodes).Result;
-            var users = _userControllerService.GetAllUsersAsync().Result.Users;
+            var users = UserControllerService.GetAllUsersAsync().Result.Users;
 
             Assert.Multiple(() =>
             {
@@ -335,9 +322,9 @@ namespace ApiTestingSolution.Tests
             var usedCodes = usersFromFile.Select(user => user.ZipCode).ToList();
             var filePath = file.FilePath;
 
-            var response = _userControllerService.UploadFileWithUsersAsync(file.FilePath).Result;
-            var users = _userControllerService.GetAllUsersAsync().Result.Users;
-            var zipCodes = _zipCodeService.GetAvailableZipCodesAsync().Result;
+            var response = UserControllerService.UploadFileWithUsersAsync(file.FilePath).Result;
+            var users = UserControllerService.GetAllUsersAsync().Result.Users;
+            var zipCodes = ZipCodeService.GetAvailableZipCodesAsync().Result;
             var codes = JsonHelper.DeserializeJsonContentAsync<List<string>>(zipCodes).Result;
 
             Assert.Multiple(() =>
