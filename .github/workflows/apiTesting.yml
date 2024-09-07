@@ -4,6 +4,7 @@ on:
 
 jobs:
   deploy-and-test-run:
+    name: RestSharp run
     runs-on: ubuntu-latest
     steps:
       - name: Pull API Docker image
