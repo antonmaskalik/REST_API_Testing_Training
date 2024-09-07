@@ -1,57 +1,57 @@
-name: API test run
+name: Api test run
 on: 
  workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-  
 jobs:
-  build:
-    runs-on: ubuntu-latest    
-    name: Build and test run
+  deploy-and-test-run:
+    runs-on: ubuntu-latest
     steps:
       - name: Pull API Docker image
-        run: docker pull coherentsolutions/rest-training:2.0      
+        run: docker pull coherentsolutions/rest-training:2.0
+      
       - name: Run API Docker container
-        run: docker run -d -p 8082:8082 coherentsolutions/rest-training:2.0   
+        run: docker run -d -p 8082:8082 coherentsolutions/rest-training:2.0      
+      
       - name: Setup .Net SDK
-        if: always()
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
+      
       - name: Get repository code
         uses: actions/checkout@v4
+        
       - name: Restore NuGet packages
         run: dotnet restore ApiTestingSolution/ApiTestingSolution.sln
-      - name: Build ApiTestingSolution
-        run: dotnet build ApiTestingSolution/ApiTestingSolution.sln
-      - name: Run tests
-        run: dotnet test ApiTestingSolution/ApiTestingSolution.sln --logger "trx;LogFileName=test-results.trx" --results-directory ./allure-results --no-build
-      - name: Download and install Allure
+      
+      - name: Run API tests
+        run: dotnet test ApiTestingSolution/ApiTestingSolution.sln --logger "trx"
+      
+      - name: Load Allure test report history
+        uses: actions/checkout@v3
         if: always()
-        run: |
-          sudo apt-get install -y openjdk-11-jdk
-          curl -o allure-commandline.tgz -L https://github.com/allure-framework/allure2/releases/download/2.20.1/allure-2.20.1.tgz
-          tar -zxvf allure-commandline.tgz -C /opt/
-          sudo ln -s /opt/allure-2.20.1/bin/allure /usr/bin/allure
-      - name: Generate Allure report
-        if: always()
-        run: |
-          allure generate ./allure-results -o ./allure-report
-      - name: Upload Allure report as artifact
-        if: always()
-        uses: actions/upload-artifact@v4
+        continue-on-error: true
         with:
-          name: allure-report
-          path: ./allure-report
-      - name: Upload test results as artifact (optional)
+          ref: gh-pages
+          path: gh-pages
+          
+      - name: Build Allure test report
+        uses: simple-elf/allure-report-action@v1.7
         if: always()
-        uses: actions/upload-artifact@v4
+        id: allure-report
         with:
-          name: test-results
-          path: ./allure-results
+          gh_pages: gh-pages
+          allure_history: allure-history
+          allure_report: allure-report
+          allure_results: ApiTestingSolution/bin/Debug/net8.0/allure-results
+
+      - name: Publish Allure test report
+        uses: peaceiris/actions-gh-pages@v3
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
+
       - name: Provide link to the Allure report
         if: always()
-        run: echo "## 📊 [Allure report available here](https://${{ github.repository_owner }}.github.io/REST_API_Testing_Training/)" >> $GITHUB_STEP_SUMMARY
+        run: echo "## 📊 [Allure report available here](https://${{ github.repository_owner }}.github.io/REST_API_Testing_Training/)" >> $GITHUB_STEP_SUMMARY 
