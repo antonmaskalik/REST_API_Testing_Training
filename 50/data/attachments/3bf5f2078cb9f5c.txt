@@ -1,0 +1,10 @@
+2024-09-07 17:39:39,601 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /zip-codes is created
+2024-09-07 17:39:39,603 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /zip-codes is received. Status Code: OK, Response Body: ["12345","23456","ABCDE"]
+2024-09-07 17:39:39,604 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - The JSON file was successfully created along the path: /home/runner/work/REST_API_Testing_Training/REST_API_Testing_Training/ApiTestingSolution/bin/Debug/net8.0/users.json
+2024-09-07 17:39:39,604 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Post request to /users/upload is created
+2024-09-07 17:39:39,604 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Upload file: /home/runner/work/REST_API_Testing_Training/REST_API_Testing_Training/ApiTestingSolution/bin/Debug/net8.0/users.json
+2024-09-07 17:39:39,608 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users/upload is received. Status Code: Created, Response Body: Number of users = 3
+2024-09-07 17:39:39,608 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /users is created
+2024-09-07 17:39:39,611 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: OK, Response Body: [{"name":"ZVlxF","age":23,"sex":"MALE","zipCode":"12345"},{"name":"VmOcO","age":36,"sex":"MALE","zipCode":"23456"},{"name":"rrLKx","age":37,"sex":"MALE","zipCode":"ABCDE"}]
+2024-09-07 17:39:39,611 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /zip-codes is created
+2024-09-07 17:39:39,614 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /zip-codes is received. Status Code: OK, Response Body: []
