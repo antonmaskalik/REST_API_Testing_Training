@@ -1,6 +1,12 @@
 name: API test run
-on: workflow_dispatch
+on: 
+ workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  
 jobs:
   deploy-and-test-run:
     name: Deploy and test run
@@ -19,7 +25,7 @@ jobs:
       - name: Build ApiTestingSolution
         run: dotnet build ApiTestingSolution/ApiTestingSolution.sln --configuration Release
       - name: Run tests
-        run: dotnet test ApiTestingSolution/ApiTestingSolution.sln --logger "trx" --alluredir=allure-results
+        run: dotnet test ApiTestingSolution/ApiTestingSolution.sln --alluredir=allure-results
       - name: Store Allure results
         if: always()
         uses: actions/upload-artifact@v3
