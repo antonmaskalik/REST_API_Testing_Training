@@ -1,0 +1,6 @@
+2024-09-07 17:46:12,224 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Parameter youngerThan=20 is added to the GET request
+2024-09-07 17:46:12,225 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - GET request to http://localhost:8082/users?youngerThan=20 is created
+2024-09-07 17:46:12,225 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Sending request to http://localhost:8082/users?youngerThan=20 with method GET
+2024-09-07 17:46:12,225 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Sending read request to http://localhost:8082/users?youngerThan=20
+2024-09-07 17:46:12,229 [16] INFO  ApiTestingSolution.Logging.Logger - Received read response with status code OK
+2024-09-07 17:46:12,229 [16] INFO  ApiTestingSolution.Logging.Logger - Response from http://localhost:8082/users?youngerThan=20 is received. Status Code: 200, Response Body: []
