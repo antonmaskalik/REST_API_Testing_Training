@@ -25,9 +25,9 @@ jobs:
       - name: Build ApiTestingSolution
         run: dotnet build ApiTestingSolution/ApiTestingSolution.sln --configuration Release
       - name: Run tests
-        run: dotnet test ApiTestingSolution/ApiTestingSolution.sln
+        run: dotnet test ApiTestingSolution/ApiTestingSolution.sln --logger "trx" --collect:JUnit
       - name: Generate Allure reports
-        run: allure report allure-results
+        run: allure generate allure-results --output-dir allure-results
       - name: Store Allure results
         if: always()
         uses: actions/upload-artifact@v3
