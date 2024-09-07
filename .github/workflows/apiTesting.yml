@@ -21,9 +21,6 @@ jobs:
       - name: Restore NuGet packages
         run: dotnet restore ApiTestingSolution/ApiTestingSolution.sln
       
-      - name: Install Allure adapter for NUnit
-        run: dotnet add ApiTestingSolution/ApiTestingSolution.sln package Allure.NUnit
-      
       - name: Create allure-results directory
         run: mkdir -p allure-results
       
