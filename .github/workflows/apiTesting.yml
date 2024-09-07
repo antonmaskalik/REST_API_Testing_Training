@@ -21,12 +21,15 @@ jobs:
       - name: Restore NuGet packages
         run: dotnet restore ApiTestingSolution/ApiTestingSolution.sln
       
-      - name: Build ApiTestingSolution
-        run: dotnet build ApiTestingSolution/ApiTestingSolution.sln --configuration Release
+      - name: Install Allure adapter for NUnit
+        run: dotnet add ApiTestingSolution/ApiTestingSolution.sln package Allure.NUnit
       
-      - name: Run tests
-        run: dotnet test ApiTestingSolution/ApiTestingSolution.sln --logger "trx"
-              
+      - name: Create allure-results directory
+        run: mkdir -p allure-results
+      
+      - name: Run tests with Allure
+        run: dotnet test ApiTestingSolution/ApiTestingSolution.sln --logger "trx;LogFileName=TestResults.trx" --results-directory ./allure-results
+      
       - name: List test results directory
         run: ls -R ./allure-results
       
