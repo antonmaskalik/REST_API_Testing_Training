@@ -1,0 +1,9 @@
+2024-09-07 19:00:38,635 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /users is created
+2024-09-07 19:00:38,637 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: OK, Response Body: [{"name":"NsvRy","age":39,"sex":"FEMALE","zipCode":"ABCDE"}]
+2024-09-07 19:00:38,638 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Delete request to /users is created
+2024-09-07 19:00:38,638 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Body of the request is: "{ \"age\": \"39\", \"sex\": \"FEMALE\", \"zipCode\": \"ABCDE\" }"
+2024-09-07 19:00:38,641 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: Conflict, Response Body: {"ts":1725735638640,"message":"Some required fields are missed"}
+2024-09-07 19:00:38,641 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /zip-codes is created
+2024-09-07 19:00:38,643 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /zip-codes is received. Status Code: OK, Response Body: ["12345","23456"]
+2024-09-07 19:00:38,643 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /users is created
+2024-09-07 19:00:38,645 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: OK, Response Body: [{"name":"NsvRy","age":39,"sex":"FEMALE","zipCode":"ABCDE"}]

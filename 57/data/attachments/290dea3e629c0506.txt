@@ -1,0 +1,9 @@
+2024-09-07 19:00:38,670 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /users is created
+2024-09-07 19:00:38,673 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: OK, Response Body: [{"name":"MsIwc","age":33,"sex":"MALE","zipCode":"12345"},{"name":"tCcXW","age":15,"sex":"MALE","zipCode":"23456"},{"name":"VDyov","age":51,"sex":"MALE","zipCode":"ABCDE"}]
+2024-09-07 19:00:38,673 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Delete request to /users is created
+2024-09-07 19:00:38,674 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Body of the request is: {"age":33,"name":"MsIwc","sex":"MALE","zipCode":"12345"}
+2024-09-07 19:00:38,678 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: NoContent, Response Body: 
+2024-09-07 19:00:38,678 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /zip-codes is created
+2024-09-07 19:00:38,680 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /zip-codes is received. Status Code: OK, Response Body: ["12345"]
+2024-09-07 19:00:38,680 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /users is created
+2024-09-07 19:00:38,682 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: OK, Response Body: [{"name":"tCcXW","age":15,"sex":"MALE","zipCode":"23456"},{"name":"VDyov","age":51,"sex":"MALE","zipCode":"ABCDE"}]

@@ -1,0 +1,5 @@
+2024-09-07 19:00:38,699 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /zip-codes is created
+2024-09-07 19:00:38,701 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /zip-codes is received. Status Code: OK, Response Body: ["12345","FhmfG","lFxbsOmR"]
+2024-09-07 19:00:38,701 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Post request to /zip-codes/expand is created
+2024-09-07 19:00:38,701 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Body of the request is: ["12345","FhmfG","lFxbsOmR","12345"]
+2024-09-07 19:00:38,704 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /zip-codes/expand is received. Status Code: Created, Response Body: ["12345","FhmfG","lFxbsOmR"]

@@ -1,0 +1,3 @@
+2024-09-07 19:00:38,418 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Get request to /users is created
+2024-09-07 19:00:38,419 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Parameter sex=FEMALE is added to the GET request
+2024-09-07 19:00:38,422 [NonParallelWorker] INFO  ApiTestingSolution.Logging.Logger - Response from /users is received. Status Code: OK, Response Body: []
