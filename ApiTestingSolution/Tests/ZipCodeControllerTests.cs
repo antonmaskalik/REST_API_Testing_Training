@@ -11,7 +11,7 @@ namespace ApiTestingSolution.Tests
     [AllureSuite("Tests - ZipCode controller")]
     public class ZipCodeControllerTests
     {
-        [Test, Order(1)]
+        [Test, Order(2)]
         [AllureFeature("GetAvailibleZipCodesTest")]
         [AllureStory("Validate get all availible zip codes from the app")]
 
@@ -27,7 +27,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test, Order(2)]
+        [Test, Order(1)]
         [AllureFeature("ExpandAvailibleZipCodesTest")]
         [AllureStory("Validate adding correct zip code to the app")]
         public void ExpandAvailibleZipCodesTest()

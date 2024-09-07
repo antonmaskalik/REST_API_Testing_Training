@@ -203,7 +203,7 @@ namespace ApiTestingSolution.Tests
             });
         }
 
-        [Test]
+        [Test, Order(7)]
         [AllureFeature("DeleteUser")]
         [AllureStory("Validate delete user")]
         public void DeleteUser()
